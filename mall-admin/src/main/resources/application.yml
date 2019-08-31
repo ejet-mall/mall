@@ -1,0 +1,41 @@
+server:
+  port: 8199
+
+spring:
+  profiles:
+    active: dev #默认为开发环境
+
+mybatis:
+  mapper-locations:
+    - classpath:dao/*.xml
+    - classpath*:com/**/mapper/*.xml
+
+jwt:
+  tokenHeader: Authorization #JWT存储的请求头
+  secret: mySecret #JWT加解密使用的密钥
+  expiration: 604800 #JWT的超期限时间(60*60*24)
+  tokenHead: ejet-Auth  #JWT负载中拿到开头
+
+aliyun:
+  oss:
+    # oss对外服务的访问域名
+    endpoint: oss-cn-beijing.aliyuncs.com
+    # 访问身份验证中用到用户标识
+    accessKeyId: LTAIurgJdv4rLKCC
+    # 用户用于加密签名字符串和oss用来验证签名字符串的密钥
+    accessKeySecret: n9yJqCKW2ThihxqZzurkEw6VjqV3aC
+    # oss的存储空间
+    bucketName: mall-shiji
+    policy:
+      expire: 300 # 签名有效期(S)
+    maxSize: 10 # 上传文件大小(M)
+    callback: http://127.0.0.1:8080/aliyun/oss/callback # 文件上传成功后的回调地址
+    dir:
+      prefix: mall/images/ # 上传文件夹路径前缀
+
+logging:
+  level:
+    root: info #日志配置DEBUG,INFO,WARN,ERROR
+    com.macro.mall: debug
+#  file: demo_log.log #配置日志生成路径
+#  path: /var/logs #配置日志文件名称

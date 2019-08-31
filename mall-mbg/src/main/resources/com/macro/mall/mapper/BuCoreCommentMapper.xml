@@ -1,0 +1,535 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.macro.mall.mapper.BuCoreCommentMapper">
+  <resultMap id="BaseResultMap" type="com.macro.mall.model.BuCoreComment">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="product_id" jdbcType="BIGINT" property="productId" />
+    <result column="product_name" jdbcType="VARCHAR" property="productName" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="user_nick_name" jdbcType="VARCHAR" property="userNickName" />
+    <result column="user_icon" jdbcType="VARCHAR" property="userIcon" />
+    <result column="user_ip" jdbcType="VARCHAR" property="userIp" />
+    <result column="star" jdbcType="INTEGER" property="star" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="is_top" jdbcType="INTEGER" property="isTop" />
+    <result column="is_good" jdbcType="INTEGER" property="isGood" />
+    <result column="read_count" jdbcType="INTEGER" property="readCount" />
+    <result column="like_count" jdbcType="INTEGER" property="likeCount" />
+    <result column="unlike_count" jdbcType="INTEGER" property="unlikeCount" />
+    <result column="reply_count" jdbcType="INTEGER" property="replyCount" />
+    <result column="show_status" jdbcType="INTEGER" property="showStatus" />
+    <result column="product_attribute" jdbcType="VARCHAR" property="productAttribute" />
+    <result column="pics" jdbcType="VARCHAR" property="pics" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="ext" jdbcType="VARCHAR" property="ext" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.macro.mall.model.BuCoreComment">
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, product_id, product_name, user_id, user_nick_name, user_icon, user_ip, star, 
+    create_time, is_top, is_good, read_count, like_count, unlike_count, reply_count, 
+    show_status, product_attribute, pics, update_time, ext
+  </sql>
+  <sql id="Blob_Column_List">
+    content
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.macro.mall.model.BuCoreCommentExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from bu_core_comment
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.macro.mall.model.BuCoreCommentExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from bu_core_comment
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from bu_core_comment
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from bu_core_comment
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.macro.mall.model.BuCoreCommentExample">
+    delete from bu_core_comment
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.macro.mall.model.BuCoreComment">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into bu_core_comment (product_id, product_name, user_id, 
+      user_nick_name, user_icon, user_ip, 
+      star, create_time, is_top, 
+      is_good, read_count, like_count, 
+      unlike_count, reply_count, show_status, 
+      product_attribute, pics, update_time, 
+      ext, content)
+    values (#{productId,jdbcType=BIGINT}, #{productName,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, 
+      #{userNickName,jdbcType=VARCHAR}, #{userIcon,jdbcType=VARCHAR}, #{userIp,jdbcType=VARCHAR}, 
+      #{star,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{isTop,jdbcType=INTEGER}, 
+      #{isGood,jdbcType=INTEGER}, #{readCount,jdbcType=INTEGER}, #{likeCount,jdbcType=INTEGER}, 
+      #{unlikeCount,jdbcType=INTEGER}, #{replyCount,jdbcType=INTEGER}, #{showStatus,jdbcType=INTEGER}, 
+      #{productAttribute,jdbcType=VARCHAR}, #{pics,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{ext,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.macro.mall.model.BuCoreComment">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into bu_core_comment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="productId != null">
+        product_id,
+      </if>
+      <if test="productName != null">
+        product_name,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="userNickName != null">
+        user_nick_name,
+      </if>
+      <if test="userIcon != null">
+        user_icon,
+      </if>
+      <if test="userIp != null">
+        user_ip,
+      </if>
+      <if test="star != null">
+        star,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="isTop != null">
+        is_top,
+      </if>
+      <if test="isGood != null">
+        is_good,
+      </if>
+      <if test="readCount != null">
+        read_count,
+      </if>
+      <if test="likeCount != null">
+        like_count,
+      </if>
+      <if test="unlikeCount != null">
+        unlike_count,
+      </if>
+      <if test="replyCount != null">
+        reply_count,
+      </if>
+      <if test="showStatus != null">
+        show_status,
+      </if>
+      <if test="productAttribute != null">
+        product_attribute,
+      </if>
+      <if test="pics != null">
+        pics,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="ext != null">
+        ext,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="productId != null">
+        #{productId,jdbcType=BIGINT},
+      </if>
+      <if test="productName != null">
+        #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="userNickName != null">
+        #{userNickName,jdbcType=VARCHAR},
+      </if>
+      <if test="userIcon != null">
+        #{userIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="userIp != null">
+        #{userIp,jdbcType=VARCHAR},
+      </if>
+      <if test="star != null">
+        #{star,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isTop != null">
+        #{isTop,jdbcType=INTEGER},
+      </if>
+      <if test="isGood != null">
+        #{isGood,jdbcType=INTEGER},
+      </if>
+      <if test="readCount != null">
+        #{readCount,jdbcType=INTEGER},
+      </if>
+      <if test="likeCount != null">
+        #{likeCount,jdbcType=INTEGER},
+      </if>
+      <if test="unlikeCount != null">
+        #{unlikeCount,jdbcType=INTEGER},
+      </if>
+      <if test="replyCount != null">
+        #{replyCount,jdbcType=INTEGER},
+      </if>
+      <if test="showStatus != null">
+        #{showStatus,jdbcType=INTEGER},
+      </if>
+      <if test="productAttribute != null">
+        #{productAttribute,jdbcType=VARCHAR},
+      </if>
+      <if test="pics != null">
+        #{pics,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ext != null">
+        #{ext,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.macro.mall.model.BuCoreCommentExample" resultType="java.lang.Long">
+    select count(*) from bu_core_comment
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update bu_core_comment
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.productId != null">
+        product_id = #{record.productId,jdbcType=BIGINT},
+      </if>
+      <if test="record.productName != null">
+        product_name = #{record.productName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=BIGINT},
+      </if>
+      <if test="record.userNickName != null">
+        user_nick_name = #{record.userNickName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userIcon != null">
+        user_icon = #{record.userIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userIp != null">
+        user_ip = #{record.userIp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.star != null">
+        star = #{record.star,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isTop != null">
+        is_top = #{record.isTop,jdbcType=INTEGER},
+      </if>
+      <if test="record.isGood != null">
+        is_good = #{record.isGood,jdbcType=INTEGER},
+      </if>
+      <if test="record.readCount != null">
+        read_count = #{record.readCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.likeCount != null">
+        like_count = #{record.likeCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.unlikeCount != null">
+        unlike_count = #{record.unlikeCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.replyCount != null">
+        reply_count = #{record.replyCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.showStatus != null">
+        show_status = #{record.showStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.productAttribute != null">
+        product_attribute = #{record.productAttribute,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pics != null">
+        pics = #{record.pics,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.ext != null">
+        ext = #{record.ext,jdbcType=VARCHAR},
+      </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update bu_core_comment
+    set id = #{record.id,jdbcType=BIGINT},
+      product_id = #{record.productId,jdbcType=BIGINT},
+      product_name = #{record.productName,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=BIGINT},
+      user_nick_name = #{record.userNickName,jdbcType=VARCHAR},
+      user_icon = #{record.userIcon,jdbcType=VARCHAR},
+      user_ip = #{record.userIp,jdbcType=VARCHAR},
+      star = #{record.star,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      is_top = #{record.isTop,jdbcType=INTEGER},
+      is_good = #{record.isGood,jdbcType=INTEGER},
+      read_count = #{record.readCount,jdbcType=INTEGER},
+      like_count = #{record.likeCount,jdbcType=INTEGER},
+      unlike_count = #{record.unlikeCount,jdbcType=INTEGER},
+      reply_count = #{record.replyCount,jdbcType=INTEGER},
+      show_status = #{record.showStatus,jdbcType=INTEGER},
+      product_attribute = #{record.productAttribute,jdbcType=VARCHAR},
+      pics = #{record.pics,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      ext = #{record.ext,jdbcType=VARCHAR},
+      content = #{record.content,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update bu_core_comment
+    set id = #{record.id,jdbcType=BIGINT},
+      product_id = #{record.productId,jdbcType=BIGINT},
+      product_name = #{record.productName,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=BIGINT},
+      user_nick_name = #{record.userNickName,jdbcType=VARCHAR},
+      user_icon = #{record.userIcon,jdbcType=VARCHAR},
+      user_ip = #{record.userIp,jdbcType=VARCHAR},
+      star = #{record.star,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      is_top = #{record.isTop,jdbcType=INTEGER},
+      is_good = #{record.isGood,jdbcType=INTEGER},
+      read_count = #{record.readCount,jdbcType=INTEGER},
+      like_count = #{record.likeCount,jdbcType=INTEGER},
+      unlike_count = #{record.unlikeCount,jdbcType=INTEGER},
+      reply_count = #{record.replyCount,jdbcType=INTEGER},
+      show_status = #{record.showStatus,jdbcType=INTEGER},
+      product_attribute = #{record.productAttribute,jdbcType=VARCHAR},
+      pics = #{record.pics,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      ext = #{record.ext,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.macro.mall.model.BuCoreComment">
+    update bu_core_comment
+    <set>
+      <if test="productId != null">
+        product_id = #{productId,jdbcType=BIGINT},
+      </if>
+      <if test="productName != null">
+        product_name = #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="userNickName != null">
+        user_nick_name = #{userNickName,jdbcType=VARCHAR},
+      </if>
+      <if test="userIcon != null">
+        user_icon = #{userIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="userIp != null">
+        user_ip = #{userIp,jdbcType=VARCHAR},
+      </if>
+      <if test="star != null">
+        star = #{star,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isTop != null">
+        is_top = #{isTop,jdbcType=INTEGER},
+      </if>
+      <if test="isGood != null">
+        is_good = #{isGood,jdbcType=INTEGER},
+      </if>
+      <if test="readCount != null">
+        read_count = #{readCount,jdbcType=INTEGER},
+      </if>
+      <if test="likeCount != null">
+        like_count = #{likeCount,jdbcType=INTEGER},
+      </if>
+      <if test="unlikeCount != null">
+        unlike_count = #{unlikeCount,jdbcType=INTEGER},
+      </if>
+      <if test="replyCount != null">
+        reply_count = #{replyCount,jdbcType=INTEGER},
+      </if>
+      <if test="showStatus != null">
+        show_status = #{showStatus,jdbcType=INTEGER},
+      </if>
+      <if test="productAttribute != null">
+        product_attribute = #{productAttribute,jdbcType=VARCHAR},
+      </if>
+      <if test="pics != null">
+        pics = #{pics,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ext != null">
+        ext = #{ext,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.macro.mall.model.BuCoreComment">
+    update bu_core_comment
+    set product_id = #{productId,jdbcType=BIGINT},
+      product_name = #{productName,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=BIGINT},
+      user_nick_name = #{userNickName,jdbcType=VARCHAR},
+      user_icon = #{userIcon,jdbcType=VARCHAR},
+      user_ip = #{userIp,jdbcType=VARCHAR},
+      star = #{star,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      is_top = #{isTop,jdbcType=INTEGER},
+      is_good = #{isGood,jdbcType=INTEGER},
+      read_count = #{readCount,jdbcType=INTEGER},
+      like_count = #{likeCount,jdbcType=INTEGER},
+      unlike_count = #{unlikeCount,jdbcType=INTEGER},
+      reply_count = #{replyCount,jdbcType=INTEGER},
+      show_status = #{showStatus,jdbcType=INTEGER},
+      product_attribute = #{productAttribute,jdbcType=VARCHAR},
+      pics = #{pics,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      ext = #{ext,jdbcType=VARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.macro.mall.model.BuCoreComment">
+    update bu_core_comment
+    set product_id = #{productId,jdbcType=BIGINT},
+      product_name = #{productName,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=BIGINT},
+      user_nick_name = #{userNickName,jdbcType=VARCHAR},
+      user_icon = #{userIcon,jdbcType=VARCHAR},
+      user_ip = #{userIp,jdbcType=VARCHAR},
+      star = #{star,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      is_top = #{isTop,jdbcType=INTEGER},
+      is_good = #{isGood,jdbcType=INTEGER},
+      read_count = #{readCount,jdbcType=INTEGER},
+      like_count = #{likeCount,jdbcType=INTEGER},
+      unlike_count = #{unlikeCount,jdbcType=INTEGER},
+      reply_count = #{replyCount,jdbcType=INTEGER},
+      show_status = #{showStatus,jdbcType=INTEGER},
+      product_attribute = #{productAttribute,jdbcType=VARCHAR},
+      pics = #{pics,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      ext = #{ext,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
