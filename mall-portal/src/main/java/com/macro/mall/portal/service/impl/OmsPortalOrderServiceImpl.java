@@ -47,7 +47,7 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
     private SmsCouponHistoryMapper couponHistoryMapper;
     @Autowired
     private RedisService redisService;
-    @Value("${redis.key.prefix.orderId}")
+    @Value("${def-redis.key.prefix.orderId}")
     private String REDIS_KEY_PREFIX_ORDER_ID;
     @Autowired
     private PortalOrderDao portalOrderDao;

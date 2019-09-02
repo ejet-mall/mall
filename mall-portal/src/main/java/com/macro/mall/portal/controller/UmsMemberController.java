@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 会员登录注册管理Controller
  * Created by Ejet on 2019/8/28.
@@ -54,8 +57,6 @@ public class UmsMemberController {
     @ResponseBody
     public CommonResult login(@RequestParam String telephone,
                                  @RequestParam String password) {
-
-
         return memberService.login(telephone, password);
     }
 

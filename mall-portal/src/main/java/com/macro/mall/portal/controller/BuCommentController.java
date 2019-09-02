@@ -8,7 +8,6 @@ import com.macro.mall.portal.service.BuCoreCommentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -30,7 +29,7 @@ public class BuCommentController {
     @ApiOperation("添加产品评论")
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
-    @PreAuthorize("hasAuthority('bu:productComment:create')")
+    //@PreAuthorize("hasAuthority('bu:productComment:create')")
     public CommonResult create(@Validated @RequestBody BuCoreCommentParam productCategoryParam,
                          BindingResult result) {
         int count = buCoreCommentService.create(productCategoryParam);
@@ -44,7 +43,7 @@ public class BuCommentController {
     @ApiOperation("修改商品评论")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
     @ResponseBody
-    @PreAuthorize("hasAuthority('bu:productComment:update')")
+    //@PreAuthorize("hasAuthority('bu:productComment:update')")
     public CommonResult update(@PathVariable Long id,
                          @Validated
                          @RequestBody BuCoreCommentParam commentParam,
@@ -60,7 +59,7 @@ public class BuCommentController {
     @ApiOperation("分页查询商品评论")
     @RequestMapping(value = "/list/{productId}", method = RequestMethod.GET)
     @ResponseBody
-    @PreAuthorize("hasAuthority('bu:productComment:read')")
+    //@PreAuthorize("hasAuthority('bu:productComment:read')")
     public CommonResult<CommonPage<BuCoreCommentResult>> getList(@PathVariable BuCoreCommentParam queryParam,
                                                                  @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
                                                                  @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
@@ -71,7 +70,7 @@ public class BuCommentController {
     @ApiOperation("根据id获取商品评论")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody
-    @PreAuthorize("hasAuthority('bu:productComment:read')")
+    //@PreAuthorize("hasAuthority('bu:productComment:read')")
     public CommonResult<BuCoreCommentResult> getItem(@PathVariable Long id) {
         BuCoreCommentResult productCategory = buCoreCommentService.getItem(id);
         return CommonResult.success(productCategory);
@@ -80,7 +79,7 @@ public class BuCommentController {
     @ApiOperation("删除商品评论")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
     @ResponseBody
-    @PreAuthorize("hasAuthority('bu:productComment:delete')")
+    //@PreAuthorize("hasAuthority('bu:productComment:delete')")
     public CommonResult delete(@PathVariable Long id) {
         int count = buCoreCommentService.delete(id);
         if (count > 0) {

@@ -2,32 +2,36 @@ package com.macro.mall.portal.service.impl;
 
 import com.ejet.api.sms.alibaba.SmsFactory;
 import com.ejet.api.sms.alibaba.SmsRequest;
+import com.ejet.api.sms.alibaba.SmsResponse;
+import com.ejet.core.kernel.api.ResultCode;
+import com.ejet.core.kernel.constant.CoConstant;
+import com.ejet.core.kernel.exception.CoBusinessException;
 import com.ejet.core.kernel.utils.RandomUtil;
+import com.ejet.core.kernel.utils.StringUtil;
+import com.ejet.core.kernel.utils.encrypt.MD5Coder;
 import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.mapper.UmsMemberLevelMapper;
 import com.macro.mall.mapper.UmsMemberLoginLogMapper;
 import com.macro.mall.mapper.UmsMemberMapper;
-import com.macro.mall.model.UmsMember;
-import com.macro.mall.model.UmsMemberExample;
-import com.macro.mall.model.UmsMemberLevel;
-import com.macro.mall.model.UmsMemberLevelExample;
+import com.macro.mall.model.*;
+import com.macro.mall.portal.auth.TokenHelper;
+import com.macro.mall.portal.constant.PortalConstant;
 import com.macro.mall.portal.domain.MemberDetails;
 import com.macro.mall.portal.service.RedisService;
 import com.macro.mall.portal.service.UmsMemberService;
 import com.macro.mall.portal.util.JwtTokenUtil;
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 /**
@@ -42,12 +46,10 @@ public class UmsMemberServiceImpl implements UmsMemberService {
     @Autowired
     private UmsMemberLevelMapper memberLevelMapper;
     @Autowired
-    private PasswordEncoder passwordEncoder;
-    @Autowired
     private RedisService redisService;
-    @Value("${redis.key.prefix.authCode}")
+    @Value("${def-redis.key.prefix.authCode}")
     private String REDIS_KEY_PREFIX_AUTH_CODE;
-    @Value("${redis.key.expire.authCode}")
+    @Value("${def-redis.key.expire.authCode}")
     private Long AUTH_CODE_EXPIRE_SECONDS;
 
     @Autowired
@@ -104,7 +106,7 @@ public class UmsMemberServiceImpl implements UmsMemberService {
         UmsMember umsMember = new UmsMember();
         umsMember.setUsername(username);
         umsMember.setPhone(telephone);
-        umsMember.setPassword(passwordEncoder.encode(password));
+        //umsMember.setPassword(passwordEncoder.encode(password));
         umsMember.setCreateTime(new Date());
         umsMember.setStatus(1);
         //获取默认会员等级并设置
@@ -145,17 +147,18 @@ public class UmsMemberServiceImpl implements UmsMemberService {
             return CommonResult.failed("验证码错误");
         }
         UmsMember umsMember = memberList.get(0);
-        umsMember.setPassword(passwordEncoder.encode(password));
+        //umsMember.setPassword(passwordEncoder.encode(password));
         memberMapper.updateByPrimaryKeySelective(umsMember);
         return CommonResult.success(null,"密码修改成功");
     }
 
     @Override
     public UmsMember getCurrentMember() {
-        SecurityContext ctx = SecurityContextHolder.getContext();
-        Authentication auth = ctx.getAuthentication();
-        MemberDetails memberDetails = (MemberDetails) auth.getPrincipal();
-        return memberDetails.getUmsMember();
+//        SecurityContext ctx = SecurityContextHolder.getContext();
+//        Authentication auth = ctx.getAuthentication();
+//        MemberDetails memberDetails = (MemberDetails) auth.getPrincipal();
+//        return memberDetails.getUmsMember();
+        return null;
     }
 
     @Override
@@ -184,53 +187,68 @@ public class UmsMemberServiceImpl implements UmsMemberService {
     public CommonResult sendAuthCode(String telephone) {
         String code = RandomUtil.getRandomNumbers(6);
         SmsRequest req = new SmsRequest();
+        SmsResponse codeResult = SmsFactory.sendSms(req);
+        if("OK".equalsIgnoreCase(codeResult.getCode())) {
+            // 验证码绑定手机号并存储到redis
+            redisService.set(REDIS_KEY_PREFIX_AUTH_CODE + telephone, code);
+            redisService.expire(REDIS_KEY_PREFIX_AUTH_CODE + telephone, AUTH_CODE_EXPIRE_SECONDS);
+        }
         Map<String, String> smsParam = new HashMap<>();
-
-        SmsFactory.sendSms(req);
-        // 验证码绑定手机号并存储到redis
-        redisService.set(REDIS_KEY_PREFIX_AUTH_CODE+telephone,code);
-        redisService.expire(REDIS_KEY_PREFIX_AUTH_CODE+telephone,AUTH_CODE_EXPIRE_SECONDS);
-
-
-
-
 
         return CommonResult.success(code,"发送验证码成功");
     }
 
     /**
      * 添加登录记录
-     * @param username 用户名
      */
-    private void insertLoginLog(String username) {
-//        UmsAdmin admin = getAdminByUsername(username);
-//        UmsMemberLoginLog loginLog = new UmsMemberLoginLog();
-//        loginLog.setId(admin.getId());
-//        loginLog.setCreateTime(new Date());
-//        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-//        HttpServletRequest request = attributes.getRequest();
-//        loginLog.setIp(request.getRemoteAddr());
-//        loginLogMapper.insert(loginLog);
+    private void insertLoginLog(UmsMember user) {
+        UmsMemberLoginLog loginLog = new UmsMemberLoginLog();
+        loginLog.setMemberId(user.getId());
+        loginLog.setPhone(user.getPhone());
+        loginLog.setCreateTime(new Date());
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request = attributes.getRequest();
+        loginLog.setIp(request.getRemoteAddr());
+        loginLogMapper.insert(loginLog);
     }
 
     @Override
     public CommonResult login(String phone, String password) {
-        CommonResult token = null;
+        CommonResult result = null;
         //密码需要客户端加密后传递
         try {
-//            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-//            if(!passwordEncoder.matches(password,userDetails.getPassword())){
-//                throw new BadCredentialsException("密码不正确");
-//            }
-//            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-//            SecurityContextHolder.getContext().setAuthentication(authentication);
-//            token = jwtTokenUtil.generateToken(userDetails);
-////            updateLoginTimeByUsername(username);
-//            insertLoginLog(username);
-        } catch (AuthenticationException e) {
+            if(StringUtil.isBlank(phone)) {
+                throw new CoBusinessException(ResultCode.PARAM_MISSING); // "用户名为空!"
+            }
+            if(StringUtil.isBlank(password)) {
+                throw new CoBusinessException(ResultCode.PARAM_MISSING); // "密码为空!"
+            }
+            UmsMember userMember = getByPhone(phone);
+            if(userMember==null){
+                throw new CoBusinessException("用户尚未注册!");
+            }
+            String md5 = MD5Coder.getMD5(password);
+            if(!md5.equals(userMember.getPassword())) {
+                throw new CoBusinessException("用户密码错误!");
+            }
+            String jwtToken = jwtTokenUtil.generateToken(userMember);
+            insertLoginLog(userMember);
+//            Map<String, String> tokenMap = new HashMap<>();
+//            tokenMap.put("token", jwtToken);
+//            tokenMap.put("tokenHead", tokenHead);
+            userMember.setPassword(null);
+            MemberDetails details = new MemberDetails(userMember);
+            details.setTokenHead(tokenHead);
+            details.setToken(jwtToken);
+
+            TokenHelper.cacheToken(jwtToken, details, PortalConstant.TOKEN_KEY_TIMEOUT);
+
+            result = CommonResult.success(details);
+        } catch (CoBusinessException e) {
+            result = CommonResult.validateFailed(e.getMessage());
             LOGGER.warn("登录异常:{}", e.getMessage());
         }
-        return token;
+        return result;
     }
 
     @Override

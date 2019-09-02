@@ -10,10 +10,10 @@ import java.util.List;
  */
 public class PmsProductCategoryWithChildrenTree extends PmsProductCategory {
 
-    private List<PmsProductCategoryWithChildrenTree> children = new ArrayList<>();
+    private List<PmsProductCategoryWithChildrenTree> children = null;
 
     public List<PmsProductCategoryWithChildrenTree> getChildren() {
-        return children;
+        return children == null ? (children = new ArrayList<>()) : children;
     }
 
 }

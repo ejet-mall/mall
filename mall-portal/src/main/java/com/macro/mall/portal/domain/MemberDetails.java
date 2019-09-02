@@ -1,7 +1,7 @@
 package com.macro.mall.portal.domain;
 
 import com.macro.mall.model.UmsMember;
-import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -14,6 +14,10 @@ import java.util.Collection;
  */
 public class MemberDetails implements UserDetails {
     private UmsMember umsMember;
+
+    private String token;
+
+    private String tokenHead;
 
     public MemberDetails(UmsMember umsMember) {
         this.umsMember = umsMember;
@@ -57,5 +61,21 @@ public class MemberDetails implements UserDetails {
 
     public UmsMember getUmsMember() {
         return umsMember;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getTokenHead() {
+        return tokenHead;
+    }
+
+    public void setTokenHead(String tokenHead) {
+        this.tokenHead = tokenHead;
     }
 }

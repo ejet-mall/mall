@@ -1,12 +1,12 @@
 package com.macro.mall.portal.util;
 
+import com.macro.mall.model.UmsMember;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -82,16 +82,16 @@ public class JwtTokenUtil {
         return username;
     }
 
-    /**
-     * 验证token是否还有效
-     *
-     * @param token       客户端传入的token
-     * @param userDetails 从数据库中查询出来的用户信息
-     */
-    public boolean validateToken(String token, UserDetails userDetails) {
-        String username = getUserNameFromToken(token);
-        return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
-    }
+//    /**
+//     * 验证token是否还有效
+//     *
+//     * @param token       客户端传入的token
+//     * @param userDetails 从数据库中查询出来的用户信息
+//     */
+//    public boolean validateToken(String token, UserDetails userDetails) {
+//        String username = getUserNameFromToken(token);
+//        return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
+//    }
 
     /**
      * 判断token是否已经失效
@@ -109,15 +109,15 @@ public class JwtTokenUtil {
         return claims.getExpiration();
     }
 
-    /**
-     * 根据用户信息生成token
-     */
-    public String generateToken(UserDetails userDetails) {
-        Map<String, Object> claims = new HashMap<>();
-        claims.put(CLAIM_KEY_USERNAME, userDetails.getUsername());
-        claims.put(CLAIM_KEY_CREATED, new Date());
-        return generateToken(claims);
-    }
+//    /**
+//     * 根据用户信息生成token
+//     */
+//    public String generateToken(UserDetails userDetails) {
+//        Map<String, Object> claims = new HashMap<>();
+//        claims.put(CLAIM_KEY_USERNAME, userDetails.getUsername());
+//        claims.put(CLAIM_KEY_CREATED, new Date());
+//        return generateToken(claims);
+//    }
 
     /**
      * 判断token是否可以被刷新
@@ -134,4 +134,15 @@ public class JwtTokenUtil {
         claims.put(CLAIM_KEY_CREATED, new Date());
         return generateToken(claims);
     }
+
+    /**
+     * 根据用户信息生成token
+     */
+    public String generateToken(UmsMember userDetails) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put(CLAIM_KEY_USERNAME, userDetails.getPhone());
+        claims.put(CLAIM_KEY_CREATED, new Date());
+        return generateToken(claims);
+    }
+
 }

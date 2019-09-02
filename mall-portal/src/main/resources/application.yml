@@ -10,8 +10,9 @@ mybatis:
 http:
   port: 8085 # http服务端口
 
+
 # 自定义redis key
-redis:
+def-redis:
   key:
     prefix:
       authCode: "portal:authCode:"

@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
-* Created by Mybatis Generator 2019/08/21
+* Created by Mybatis Generator 2019/09/02
 */
 @Data
 @Getter

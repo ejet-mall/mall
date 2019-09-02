@@ -34,7 +34,7 @@
         <!-- 自定义包 -->
         <dependency>
             <groupId>com.ejet</groupId>
-            <artifactId>ejet-core-kernel</artifactId>
+            <artifactId>ejet-core-kernel-web</artifactId>
             <version>${ejet-project.version}</version>
         </dependency>
 
@@ -57,10 +57,10 @@
             <artifactId>spring-boot-starter-data-mongodb</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot-starter-security</artifactId>-->
+        <!--</dependency>-->
         <!--redis依赖配置-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
