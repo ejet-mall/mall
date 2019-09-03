@@ -1,7 +1,9 @@
 package com.macro.mall.portal.service;
 
+import com.ejet.core.kernel.exception.CoBusinessException;
 import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.model.UmsMember;
+import com.macro.mall.portal.domain.MemberDetails;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -43,7 +45,7 @@ public interface UmsMemberService {
     /**
      * 获取当前登录会员
      */
-    UmsMember getCurrentMember();
+    MemberDetails getCurrentMember() throws CoBusinessException;
 
     /**
      * 根据会员id修改会员积分
@@ -66,6 +68,10 @@ public interface UmsMemberService {
      */
     CommonResult login(String username,String password);
 
+    /**
+     * 退出登录
+     */
+    CommonResult logout();
     /**
      * 刷新token的功能
      * @param oldToken 旧的token

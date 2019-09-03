@@ -60,6 +60,11 @@ public class UmsMemberController {
         return memberService.login(telephone, password);
     }
 
-
+    @ApiOperation("退出")
+    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult logout() {
+        return memberService.logout();
+    }
 
 }

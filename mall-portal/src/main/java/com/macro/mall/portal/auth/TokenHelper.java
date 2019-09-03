@@ -63,7 +63,7 @@ public class TokenHelper {
      *
      * @return
      */
-    public static <T> T getTokenUser(HttpServletRequest request, Class clazz) throws CoBusinessException {
+    public static <T> T getCurrentUser(HttpServletRequest request, Class clazz) throws CoBusinessException {
         T object = null;
         String authToken = getToken(request);
         object = redis.get(authToken, clazz);
@@ -72,7 +72,15 @@ public class TokenHelper {
         }
         return object;
     }
-
+    /**
+     * 校验token
+     *
+     * @return
+     */
+    public static <T> T getCurrentUser(Class clazz) throws CoBusinessException {
+        HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
+        return getCurrentUser(request, clazz);
+    }
 
     /**
      *  生成Token信息

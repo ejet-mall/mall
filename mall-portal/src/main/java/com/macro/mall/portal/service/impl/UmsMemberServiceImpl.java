@@ -4,9 +4,10 @@ import com.ejet.api.sms.alibaba.SmsFactory;
 import com.ejet.api.sms.alibaba.SmsRequest;
 import com.ejet.api.sms.alibaba.SmsResponse;
 import com.ejet.core.kernel.api.ResultCode;
-import com.ejet.core.kernel.constant.CoConstant;
 import com.ejet.core.kernel.exception.CoBusinessException;
+import com.ejet.core.kernel.utils.HttpServletRequestUtil;
 import com.ejet.core.kernel.utils.RandomUtil;
+import com.ejet.core.kernel.utils.SpringUtil;
 import com.ejet.core.kernel.utils.StringUtil;
 import com.ejet.core.kernel.utils.encrypt.MD5Coder;
 import com.macro.mall.common.api.CommonResult;
@@ -20,7 +21,6 @@ import com.macro.mall.portal.domain.MemberDetails;
 import com.macro.mall.portal.service.RedisService;
 import com.macro.mall.portal.service.UmsMemberService;
 import com.macro.mall.portal.util.JwtTokenUtil;
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -153,12 +153,9 @@ public class UmsMemberServiceImpl implements UmsMemberService {
     }
 
     @Override
-    public UmsMember getCurrentMember() {
-//        SecurityContext ctx = SecurityContextHolder.getContext();
-//        Authentication auth = ctx.getAuthentication();
-//        MemberDetails memberDetails = (MemberDetails) auth.getPrincipal();
-//        return memberDetails.getUmsMember();
-        return null;
+    public MemberDetails getCurrentMember() throws CoBusinessException {
+        MemberDetails details = TokenHelper.getCurrentUser(MemberDetails.class);
+        return details;
     }
 
     @Override
@@ -260,6 +257,21 @@ public class UmsMemberServiceImpl implements UmsMemberService {
         return null;
     }
 
+
+    @Override
+    public CommonResult logout() {
+        CommonResult result = null;
+        try {
+            MemberDetails details = getCurrentMember();
+            String authToken = details.getToken();
+            TokenHelper.delToken(authToken);
+            result = CommonResult.success("退出成功!");
+        }catch (CoBusinessException e) {
+            LOGGER.error("", e);
+            result = CommonResult.failed(e.getMessage());
+        }
+        return result;
+    }
 
 
 
