@@ -5,9 +5,7 @@ import com.ejet.api.sms.alibaba.SmsRequest;
 import com.ejet.api.sms.alibaba.SmsResponse;
 import com.ejet.core.kernel.api.ResultCode;
 import com.ejet.core.kernel.exception.CoBusinessException;
-import com.ejet.core.kernel.utils.HttpServletRequestUtil;
 import com.ejet.core.kernel.utils.RandomUtil;
-import com.ejet.core.kernel.utils.SpringUtil;
 import com.ejet.core.kernel.utils.StringUtil;
 import com.ejet.core.kernel.utils.encrypt.MD5Coder;
 import com.macro.mall.common.api.CommonResult;
@@ -153,9 +151,20 @@ public class UmsMemberServiceImpl implements UmsMemberService {
     }
 
     @Override
-    public MemberDetails getCurrentMember() throws CoBusinessException {
-        MemberDetails details = TokenHelper.getCurrentUser(MemberDetails.class);
+    public MemberDetails getCurrentMemberDetail() {
+        MemberDetails details = null;
+        try {
+            details = TokenHelper.getCurrentUser(MemberDetails.class);
+        } catch (Exception e) {
+            LOGGER.error("", e);
+        }
         return details;
+    }
+
+    @Override
+    public UmsMember getCurrentMember() {
+        MemberDetails details = getCurrentMemberDetail();
+        return details.getUmsMember();
     }
 
     @Override
@@ -261,14 +270,12 @@ public class UmsMemberServiceImpl implements UmsMemberService {
     @Override
     public CommonResult logout() {
         CommonResult result = null;
-        try {
-            MemberDetails details = getCurrentMember();
-            String authToken = details.getToken();
-            TokenHelper.delToken(authToken);
+        MemberDetails details = getCurrentMemberDetail();
+        if(details==null || details.getToken()==null) {
+            result = CommonResult.failed("退出登录失败!");
+        } else {
+            TokenHelper.delToken(details.getToken());
             result = CommonResult.success("退出成功!");
-        }catch (CoBusinessException e) {
-            LOGGER.error("", e);
-            result = CommonResult.failed(e.getMessage());
         }
         return result;
     }

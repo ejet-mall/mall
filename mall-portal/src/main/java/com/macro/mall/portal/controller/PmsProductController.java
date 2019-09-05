@@ -59,10 +59,11 @@ public class PmsProductController {
     @ApiOperation("根据商品ID查询商品详情")
     @RequestMapping(value = "/detail", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult<List<PmsProduct>> getDetail(String keyword) {
-        List<PmsProduct> productList = productService.list(keyword);
-        return CommonResult.success(productList);
+    public CommonResult<PmsProductResult> getDetail(@RequestParam(value = "id", defaultValue = "") Long id) {
+        PmsProductResult productResult = productService.getUpdateInfo(id);
+        return CommonResult.success(productResult);
     }
+
 
 
 

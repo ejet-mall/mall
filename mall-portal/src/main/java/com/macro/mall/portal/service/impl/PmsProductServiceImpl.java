@@ -5,7 +5,7 @@ import com.macro.mall.dto.PmsProductQueryParam;
 import com.macro.mall.dto.PmsProductResult;
 import com.macro.mall.mapper.*;
 import com.macro.mall.model.*;
-import com.macro.mall.portal.dao.PmsProductDao;
+import com.macro.mall.dao.PmsProductDao;
 import com.macro.mall.portal.service.PmsProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

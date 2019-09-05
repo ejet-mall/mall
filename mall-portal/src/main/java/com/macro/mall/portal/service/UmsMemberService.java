@@ -45,16 +45,16 @@ public interface UmsMemberService {
     /**
      * 获取当前登录会员
      */
-    MemberDetails getCurrentMember() throws CoBusinessException;
+    MemberDetails getCurrentMemberDetail() throws CoBusinessException;
+    /**
+     * 获取当前登录会员
+     */
+    UmsMember getCurrentMember();
 
     /**
      * 根据会员id修改会员积分
      */
     void updateIntegration(Long id,Integer integration);
-
-
-
-
 
     /**
      * 生成并发送验证码

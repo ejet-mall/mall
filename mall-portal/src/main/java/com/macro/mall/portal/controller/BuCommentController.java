@@ -68,7 +68,7 @@ public class BuCommentController {
     }
 
     @ApiOperation("根据id获取商品评论")
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
     @ResponseBody
     //@PreAuthorize("hasAuthority('bu:productComment:read')")
     public CommonResult<BuCoreCommentResult> getItem(@PathVariable Long id) {
