@@ -28,6 +28,13 @@ public class OmsPortalOrderController {
         return CommonResult.success(confirmOrderResult);
     }
 
+    @ApiOperation("生成订单")
+    @RequestMapping(value = "/generateCustomOrder",method = RequestMethod.POST)
+    @ResponseBody
+    public Object generateCustomOrder(@RequestBody OrderParam orderParam){
+        return portalOrderService.generateCustomOrder(orderParam);
+    }
+
     @ApiOperation("根据购物车信息生成订单")
     @RequestMapping(value = "/generateOrder",method = RequestMethod.POST)
     @ResponseBody

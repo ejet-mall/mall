@@ -803,6 +803,76 @@ public class PmsProductCategoryExample {
             addCriterion("keywords not between", value1, value2, "keywords");
             return (Criteria) this;
         }
+
+        public Criteria andTagIdsIsNull() {
+            addCriterion("tag_ids is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTagIdsIsNotNull() {
+            addCriterion("tag_ids is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTagIdsEqualTo(String value) {
+            addCriterion("tag_ids =", value, "tagIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andTagIdsNotEqualTo(String value) {
+            addCriterion("tag_ids <>", value, "tagIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andTagIdsGreaterThan(String value) {
+            addCriterion("tag_ids >", value, "tagIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andTagIdsGreaterThanOrEqualTo(String value) {
+            addCriterion("tag_ids >=", value, "tagIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andTagIdsLessThan(String value) {
+            addCriterion("tag_ids <", value, "tagIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andTagIdsLessThanOrEqualTo(String value) {
+            addCriterion("tag_ids <=", value, "tagIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andTagIdsLike(String value) {
+            addCriterion("tag_ids like", value, "tagIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andTagIdsNotLike(String value) {
+            addCriterion("tag_ids not like", value, "tagIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andTagIdsIn(List<String> values) {
+            addCriterion("tag_ids in", values, "tagIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andTagIdsNotIn(List<String> values) {
+            addCriterion("tag_ids not in", values, "tagIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andTagIdsBetween(String value1, String value2) {
+            addCriterion("tag_ids between", value1, value2, "tagIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andTagIdsNotBetween(String value1, String value2) {
+            addCriterion("tag_ids not between", value1, value2, "tagIds");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

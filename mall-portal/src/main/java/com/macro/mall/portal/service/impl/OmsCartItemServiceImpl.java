@@ -7,6 +7,7 @@ import com.macro.mall.model.UmsMember;
 import com.macro.mall.portal.dao.PortalProductDao;
 import com.macro.mall.portal.domain.CartProduct;
 import com.macro.mall.portal.domain.CartPromotionItem;
+import com.macro.mall.portal.domain.OrderParam;
 import com.macro.mall.portal.service.OmsCartItemService;
 import com.macro.mall.portal.service.OmsPromotionService;
 import com.macro.mall.portal.service.UmsMemberService;
@@ -15,8 +16,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import javax.swing.text.html.HTMLDocument;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -88,6 +91,23 @@ public class OmsCartItemServiceImpl implements OmsCartItemService {
         List<OmsCartItem> cartItemList = list(memberId);
         List<CartPromotionItem> cartPromotionItemList = new ArrayList<>();
         if(!CollectionUtils.isEmpty(cartItemList)){
+            cartPromotionItemList = promotionService.calcCartPromotion(cartItemList);
+        }
+        return cartPromotionItemList;
+    }
+
+    @Override
+    public List<CartPromotionItem> listCustomPromotion(Long memberId, OrderParam orderParam) {
+        List<OmsCartItem> cartItemList = list(memberId);
+        List<CartPromotionItem> cartPromotionItemList = new ArrayList<>();
+        if(!CollectionUtils.isEmpty(cartItemList)){
+            Iterator it = cartItemList.iterator();
+            while (it.hasNext()) {
+                OmsCartItem item = (OmsCartItem)it.next();
+                if(!orderParam.getProductIds().contains(item.getId())) {
+                    it.remove();
+                }
+            }
             cartPromotionItemList = promotionService.calcCartPromotion(cartItemList);
         }
         return cartPromotionItemList;

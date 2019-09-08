@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
-* Created by Mybatis Generator 2019/09/02
+* Created by Mybatis Generator 2019/09/06
 */
 @Data
 @Getter
@@ -40,6 +40,9 @@ public class PmsProductCategory implements Serializable {
 
     private String keywords;
 
+    @ApiModelProperty(value = "父id集合，分隔")
+    private String tagIds;
+
     @ApiModelProperty(value = "描述")
     private String description;
 
@@ -62,6 +65,7 @@ public class PmsProductCategory implements Serializable {
         sb.append(", sort=").append(sort);
         sb.append(", icon=").append(icon);
         sb.append(", keywords=").append(keywords);
+        sb.append(", tagIds=").append(tagIds);
         sb.append(", description=").append(description);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

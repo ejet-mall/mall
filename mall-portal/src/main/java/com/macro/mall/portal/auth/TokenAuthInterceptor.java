@@ -46,6 +46,8 @@ public class TokenAuthInterceptor implements HandlerInterceptor {
         excludePath.add("/home/**");
         excludePath.add("/product/**");
         excludePath.add("/productCategory/**");
+        excludePath.add("/flash/**");
+        excludePath.add("/brand/**");
 
         excludePath.add("/productComment/list/**");
         excludePath.add("/productComment/get/**");

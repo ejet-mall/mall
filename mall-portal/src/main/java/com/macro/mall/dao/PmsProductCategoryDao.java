@@ -1,6 +1,7 @@
-package com.macro.mall.portal.dao;
+package com.macro.mall.dao;
 
 import com.macro.mall.dto.PmsProductCategoryWithChildrenItem;
+import com.macro.mall.dto.PmsProductCategoryWithChildrenTree;
 
 import java.util.List;
 
@@ -10,4 +11,6 @@ import java.util.List;
  */
 public interface PmsProductCategoryDao {
     List<PmsProductCategoryWithChildrenItem> listWithChildren();
+
+    List<PmsProductCategoryWithChildrenTree> listWithArray();
 }

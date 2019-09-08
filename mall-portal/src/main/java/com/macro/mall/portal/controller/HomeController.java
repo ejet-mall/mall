@@ -1,11 +1,15 @@
 package com.macro.mall.portal.controller;
 
+import com.macro.mall.common.api.CommonPage;
 import com.macro.mall.common.api.CommonResult;
+import com.macro.mall.mapper.SmsHomeNewProductMapper;
 import com.macro.mall.model.CmsSubject;
 import com.macro.mall.model.PmsProduct;
 import com.macro.mall.model.PmsProductCategory;
+import com.macro.mall.model.SmsHomeNewProduct;
 import com.macro.mall.portal.domain.HomeContentResult;
 import com.macro.mall.portal.service.HomeService;
+import com.macro.mall.portal.service.SmsHomeNewProductService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,4 +63,14 @@ public class HomeController {
         List<CmsSubject> subjectList = homeService.getSubjectList(cateId,pageSize,pageNum);
         return CommonResult.success(subjectList);
     }
+
+    @ApiOperation("分页查询推荐")
+    @RequestMapping(value = "/newProduct/list", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<List<PmsProduct>> list(@RequestParam(value = "pageSize", defaultValue = "4") Integer pageSize,
+                                                            @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+        List<PmsProduct> newProductList = homeService.newProductList(pageSize, pageNum);
+        return CommonResult.success(newProductList);
+    }
+
 }

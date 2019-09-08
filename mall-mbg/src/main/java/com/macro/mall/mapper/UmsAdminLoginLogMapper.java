@@ -6,7 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 /**
-* Created by Mybatis Generator 2019/09/02
+* Created by Mybatis Generator 2019/09/06
 */
 public interface UmsAdminLoginLogMapper {
     long countByExample(UmsAdminLoginLogExample example);

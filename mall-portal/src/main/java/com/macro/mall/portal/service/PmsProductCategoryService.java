@@ -1,6 +1,7 @@
 package com.macro.mall.portal.service;
 
 import com.macro.mall.dto.PmsProductCategoryWithChildrenItem;
+import com.macro.mall.dto.PmsProductCategoryWithChildrenTree;
 import com.macro.mall.model.PmsProductCategory;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,4 +18,8 @@ public interface PmsProductCategoryService {
     PmsProductCategory getItem(Long id);
 
     List<PmsProductCategoryWithChildrenItem> listWithChildren();
+
+    List<PmsProductCategoryWithChildrenTree> listWithTree();
+
+    List<PmsProductCategoryWithChildrenTree> listWithArray();
 }

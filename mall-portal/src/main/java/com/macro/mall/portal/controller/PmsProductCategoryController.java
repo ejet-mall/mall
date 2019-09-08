@@ -3,6 +3,7 @@ package com.macro.mall.portal.controller;
 import com.macro.mall.common.api.CommonPage;
 import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.dto.PmsProductCategoryWithChildrenItem;
+import com.macro.mall.dto.PmsProductCategoryWithChildrenTree;
 import com.macro.mall.model.PmsProductCategory;
 import com.macro.mall.portal.service.PmsProductCategoryService;
 import io.swagger.annotations.Api;
@@ -53,4 +54,24 @@ public class PmsProductCategoryController {
         List<PmsProductCategoryWithChildrenItem> list = productCategoryService.listWithChildren();
         return CommonResult.success(list);
     }
+
+
+    @ApiOperation("查询所有一级分类及子分类(树状)")
+    @RequestMapping(value = "/list/withTree", method = RequestMethod.GET)
+    @ResponseBody
+    //@PreAuthorize("hasAuthority('pms:productCategory:read')")
+    public CommonResult<List<PmsProductCategoryWithChildrenTree>> listWithTree() {
+        List<PmsProductCategoryWithChildrenTree> list = productCategoryService.listWithTree();
+        return CommonResult.success(list);
+    }
+
+    @ApiOperation("查询所有分类及子分类(数组)")
+    @RequestMapping(value = "/list/withArray", method = RequestMethod.GET)
+    @ResponseBody
+    //@PreAuthorize("hasAuthority('pms:productCategory:read')")
+    public CommonResult<List<PmsProductCategoryWithChildrenTree>> withArray() {
+        List<PmsProductCategoryWithChildrenTree> list = productCategoryService.listWithArray();
+        return CommonResult.success(list);
+    }
+
 }

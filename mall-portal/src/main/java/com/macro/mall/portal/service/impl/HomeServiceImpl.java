@@ -67,6 +67,18 @@ public class HomeServiceImpl implements HomeService {
     }
 
     @Override
+    public List<PmsProduct> newProductList(Integer pageSize, Integer pageNum) {
+        // TODO: 新品推荐
+        PageHelper.startPage(pageNum,pageSize);
+        PmsProductExample example = new PmsProductExample();
+        example.createCriteria()
+                .andNewStatusEqualTo(1)
+                .andDeleteStatusEqualTo(0)
+                .andPublishStatusEqualTo(1);
+        return productMapper.selectByExample(example);
+    }
+
+    @Override
     public List<PmsProductCategory> getProductCateList(Long parentId) {
         PmsProductCategoryExample example = new PmsProductCategoryExample();
         example.createCriteria()

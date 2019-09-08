@@ -3,6 +3,7 @@
 <mapper namespace="com.macro.mall.dao.PmsProductDao">
     <resultMap id="updateInfoMap" type="com.macro.mall.dto.PmsProductResult" extends="com.macro.mall.mapper.PmsProductMapper.ResultMapWithBLOBs">
         <result column="cateParentId" jdbcType="BIGINT" property="cateParentId" />
+        <result column="tagIds" jdbcType="VARCHAR" property="tagIds" />
         <collection property="productLadderList" columnPrefix="ladder_" resultMap="com.macro.mall.mapper.PmsProductLadderMapper.BaseResultMap">
         </collection>
         <collection property="productFullReductionList" columnPrefix="full_" resultMap="com.macro.mall.mapper.PmsProductFullReductionMapper.BaseResultMap">
@@ -19,7 +20,7 @@
     </resultMap>
 
     <select id="getUpdateInfo" resultMap="updateInfoMap">
-        SELECT *,
+        SELECT *,pc.tag_ids tagIds,
             pc.parent_id cateParentId,
             l.id ladder_id,l.product_id ladder_product_id,l.discount ladder_discount,l.count ladder_count,l.price ladder_price,
             pf.id full_id,pf.product_id full_product_id,pf.full_price full_full_price,pf.reduce_price full_reduce_price,

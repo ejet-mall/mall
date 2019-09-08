@@ -8,7 +8,7 @@
         <result column="flash_promotion_limit" property="flashPromotionLimit"/>
     </resultMap>
 
-    <select id="getRecommendBrandList" resultMap="com.macro.mall.mapper.PmsBrandMapper.BaseResultMap">
+    <select id="getRecommendBrandList" resultMap="com.macro.mall.mapper.PmsBrandMapper.ResultMapWithBLOBs">
         SELECT b.*
         FROM
             sms_home_brand hb

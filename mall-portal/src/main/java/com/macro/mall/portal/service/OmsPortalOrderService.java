@@ -22,6 +22,12 @@ public interface OmsPortalOrderService {
     CommonResult generateOrder(OrderParam orderParam);
 
     /**
+     * 生成订单
+     */
+    @Transactional
+    CommonResult generateCustomOrder(OrderParam orderParam);
+
+    /**
      * 支付成功后的回调
      */
     @Transactional
