@@ -40,6 +40,7 @@ public class OmsCartItemServiceImpl implements OmsCartItemService {
     @Override
     public int add(OmsCartItem cartItem) {
         int count;
+        int id;
         UmsMember currentMember =memberService.getCurrentMember();
         cartItem.setMemberId(currentMember.getId());
         cartItem.setMemberNickname(currentMember.getNickname());
@@ -48,12 +49,14 @@ public class OmsCartItemServiceImpl implements OmsCartItemService {
         if (existCartItem == null) {
             cartItem.setCreateDate(new Date());
             count = cartItemMapper.insert(cartItem);
+            id = count;
         } else {
             cartItem.setModifyDate(new Date());
             existCartItem.setQuantity(existCartItem.getQuantity() + cartItem.getQuantity());
             count = cartItemMapper.updateByPrimaryKey(existCartItem);
+            id =  existCartItem.getId().intValue();
         }
-        return count;
+        return count>0 ? id : count;
     }
 
     /**
@@ -104,7 +107,7 @@ public class OmsCartItemServiceImpl implements OmsCartItemService {
             Iterator it = cartItemList.iterator();
             while (it.hasNext()) {
                 OmsCartItem item = (OmsCartItem)it.next();
-                if(!orderParam.getProductIds().contains(item.getId())) {
+                if(!orderParam.getCartIds().contains(item.getId())) {
                     it.remove();
                 }
             }

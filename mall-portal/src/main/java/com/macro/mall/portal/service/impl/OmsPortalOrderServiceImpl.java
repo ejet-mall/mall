@@ -12,8 +12,10 @@ import com.macro.mall.portal.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
@@ -47,6 +49,7 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
     private SmsCouponHistoryMapper couponHistoryMapper;
     @Autowired
     private RedisService redisService;
+
     @Value("${def-redis.key.prefix.orderId}")
     private String REDIS_KEY_PREFIX_ORDER_ID;
     @Autowired
@@ -253,7 +256,7 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
             orderItem.setGiftIntegration(cartPromotionItem.getIntegration());
             orderItem.setGiftGrowth(cartPromotionItem.getGrowth());
 
-            if(orderParam.getProductIds().contains(cartPromotionItem.getId())) {
+            if(orderParam.getCartIds().contains(cartPromotionItem.getId())) {
                 orderItemList.add(orderItem);
             }
         }
@@ -376,6 +379,21 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
         return CommonResult.success(result, "下单成功");
     }
 
+
+    /**
+     * 1加购物车， 2生成订单
+     */
+    @Override
+    public CommonResult generateCartOrder(CartOrderParam orderParam) throws Exception{
+        int count = cartItemService.add(orderParam.getCartItem());
+        if (count<0) {
+            throw new IOException("下单失败");
+        }
+        List<Long> ids = new ArrayList<>();
+        ids.add((long) count);
+        orderParam.setCartIds(ids);
+        return generateCustomOrder(orderParam);
+    }
 
     @Override
     public CommonResult paySuccess(Long orderId) {

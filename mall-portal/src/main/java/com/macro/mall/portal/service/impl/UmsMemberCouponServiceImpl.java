@@ -6,7 +6,10 @@ import com.macro.mall.mapper.SmsCouponMapper;
 import com.macro.mall.model.*;
 import com.macro.mall.portal.dao.SmsCouponHistoryDao;
 import com.macro.mall.portal.domain.CartPromotionItem;
+import com.macro.mall.portal.domain.OrderParam;
+import com.macro.mall.portal.domain.OrderPromotionParam;
 import com.macro.mall.portal.domain.SmsCouponHistoryDetail;
+import com.macro.mall.portal.service.OmsCartItemService;
 import com.macro.mall.portal.service.UmsMemberCouponService;
 import com.macro.mall.portal.service.UmsMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +32,9 @@ public class UmsMemberCouponServiceImpl implements UmsMemberCouponService {
     private SmsCouponHistoryMapper couponHistoryMapper;
     @Autowired
     private SmsCouponHistoryDao couponHistoryDao;
+    @Autowired
+    private OmsCartItemService cartItemService;
+
     @Override
     public CommonResult add(Long couponId) {
         UmsMember currentMember = memberService.getCurrentMember();
@@ -158,6 +164,15 @@ public class UmsMemberCouponServiceImpl implements UmsMemberCouponService {
         }else{
             return disableList;
         }
+    }
+
+
+    @Override
+    public List<SmsCouponHistoryDetail> listOrder(OrderPromotionParam promotionParam) {
+        OrderParam orderParam = new OrderParam();
+        orderParam.setCartIds(promotionParam.getProductIds());
+        List<CartPromotionItem> cartPromotionItemList = cartItemService.listCustomPromotion(memberService.getCurrentMember().getId(), orderParam);
+        return listCart(cartPromotionItemList, promotionParam.getType()==null ? 1 : promotionParam.getType());
     }
 
     private BigDecimal calcTotalAmount(List<CartPromotionItem> cartItemList) {

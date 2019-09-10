@@ -11,46 +11,15 @@ import java.util.List;
  */
 @Data
 public class OrderParam {
-    //收货地址id
+    @ApiModelProperty("收货地址id")
     private Long memberReceiveAddressId;
-    //优惠券id
+    @ApiModelProperty("优惠券id")
     private Long couponId;
-    //使用的积分数
+    @ApiModelProperty("使用的积分数")
     private Integer useIntegration;
-    //支付方式
+    @ApiModelProperty("支付方式")
     private Integer payType;
-    @ApiModelProperty("商品id集合")
-    List<Long> productIds;
+    @ApiModelProperty("购物车id集合")
+    List<Long> cartIds;
 
-//    public Long getMemberReceiveAddressId() {
-//        return memberReceiveAddressId;
-//    }
-//
-//    public void setMemberReceiveAddressId(Long memberReceiveAddressId) {
-//        this.memberReceiveAddressId = memberReceiveAddressId;
-//    }
-//
-//    public Long getCouponId() {
-//        return couponId;
-//    }
-//
-//    public void setCouponId(Long couponId) {
-//        this.couponId = couponId;
-//    }
-//
-//    public Integer getPayType() {
-//        return payType;
-//    }
-//
-//    public void setPayType(Integer payType) {
-//        this.payType = payType;
-//    }
-//
-//    public Integer getUseIntegration() {
-//        return useIntegration;
-//    }
-//
-//    public void setUseIntegration(Integer useIntegration) {
-//        this.useIntegration = useIntegration;
-//    }
 }

@@ -1,6 +1,7 @@
 package com.macro.mall.portal.service;
 
 import com.macro.mall.common.api.CommonResult;
+import com.macro.mall.portal.domain.CartOrderParam;
 import com.macro.mall.portal.domain.ConfirmOrderResult;
 import com.macro.mall.portal.domain.OrderParam;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +27,10 @@ public interface OmsPortalOrderService {
      */
     @Transactional
     CommonResult generateCustomOrder(OrderParam orderParam);
+    /**
+     * 1加购物车， 2生成订单
+     */
+    CommonResult generateCartOrder(CartOrderParam orderParam) throws Exception;
 
     /**
      * 支付成功后的回调

@@ -3,12 +3,15 @@ package com.macro.mall.portal.controller;
 import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.model.SmsCouponHistory;
 import com.macro.mall.portal.domain.CartPromotionItem;
+import com.macro.mall.portal.domain.OrderParam;
+import com.macro.mall.portal.domain.OrderPromotionParam;
 import com.macro.mall.portal.domain.SmsCouponHistoryDetail;
 import com.macro.mall.portal.service.OmsCartItemService;
 import com.macro.mall.portal.service.UmsMemberCouponService;
 import com.macro.mall.portal.service.UmsMemberService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -58,4 +61,13 @@ public class UmsMemberCouponController {
         List<SmsCouponHistoryDetail> couponHistoryList = memberCouponService.listCart(cartPromotionItemList, type);
         return CommonResult.success(couponHistoryList);
     }
+
+    @ApiOperation("获取订单中相关优惠券")
+    @RequestMapping(value = "/list/order", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult<List<SmsCouponHistoryDetail>> listOrderCart(OrderPromotionParam promotionParam) {
+        List<SmsCouponHistoryDetail> couponHistoryList = memberCouponService.listOrder(promotionParam);
+        return CommonResult.success(couponHistoryList);
+    }
+
 }
