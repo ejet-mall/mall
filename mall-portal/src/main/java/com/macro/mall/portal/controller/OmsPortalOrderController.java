@@ -1,9 +1,13 @@
 package com.macro.mall.portal.controller;
 
 import com.ejet.core.kernel.utils.IOUtil;
+import com.macro.mall.common.api.CommonPage;
 import com.macro.mall.common.api.CommonResult;
+import com.macro.mall.dto.OmsOrderQueryParam;
+import com.macro.mall.model.OmsOrder;
 import com.macro.mall.portal.domain.CartOrderParam;
 import com.macro.mall.portal.domain.ConfirmOrderResult;
+import com.macro.mall.portal.domain.OmsOrderDetail;
 import com.macro.mall.portal.domain.OrderParam;
 import com.macro.mall.portal.service.OmsPortalOrderService;
 import io.swagger.annotations.Api;
@@ -12,6 +16,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 订单管理Controller
@@ -24,6 +30,7 @@ import org.springframework.web.bind.annotation.*;
 public class OmsPortalOrderController {
     @Autowired
     private OmsPortalOrderService portalOrderService;
+
     @ApiOperation("根据购物车信息生成确认单信息")
     @RequestMapping(value = "/generateConfirmOrder",method = RequestMethod.POST)
     @ResponseBody
@@ -79,4 +86,25 @@ public class OmsPortalOrderController {
         portalOrderService.sendDelayMessageCancelOrder(orderId);
         return CommonResult.success(null);
     }
+
+
+    @ApiOperation("查询订单")
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<CommonPage<OmsOrder>> list(OmsOrderQueryParam queryParam,
+                                                   @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
+                                                   @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+        List<OmsOrder> orderList = portalOrderService.list(queryParam, pageSize, pageNum);
+        return CommonResult.success(CommonPage.restPage(orderList));
+    }
+
+    @ApiOperation("获取订单详情:订单信息、商品信息、操作记录")
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<OmsOrderDetail> detail(@PathVariable Long id) {
+        OmsOrderDetail orderDetailResult = portalOrderService.detail(id);
+        return CommonResult.success(orderDetailResult);
+    }
+
+
 }

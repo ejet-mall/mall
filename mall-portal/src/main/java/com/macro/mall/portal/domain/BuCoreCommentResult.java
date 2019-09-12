@@ -12,8 +12,10 @@ import java.util.List;
 @Data
 public class BuCoreCommentResult extends BuCoreComment {
 
-    private List<BuCoreCommentParam> commentList;
-
+    /** 平均星级 */
+    private Integer avgStar;
+    /** 总评论数 */
+    private Integer totalNumber;
 
 
 }

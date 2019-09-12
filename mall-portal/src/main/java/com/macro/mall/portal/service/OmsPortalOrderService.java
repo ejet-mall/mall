@@ -1,10 +1,15 @@
 package com.macro.mall.portal.service;
 
 import com.macro.mall.common.api.CommonResult;
+import com.macro.mall.dto.OmsOrderQueryParam;
+import com.macro.mall.model.OmsOrder;
 import com.macro.mall.portal.domain.CartOrderParam;
 import com.macro.mall.portal.domain.ConfirmOrderResult;
+import com.macro.mall.portal.domain.OmsOrderDetail;
 import com.macro.mall.portal.domain.OrderParam;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * 前台订单管理Service
@@ -54,4 +59,17 @@ public interface OmsPortalOrderService {
      * 发送延迟消息取消订单
      */
     void sendDelayMessageCancelOrder(Long orderId);
+
+
+
+    /**
+     * 订单查询
+     */
+    List<OmsOrder> list(OmsOrderQueryParam queryParam, Integer pageSize, Integer pageNum);
+
+    /**
+     * 获取指定订单详情
+     */
+    OmsOrderDetail detail(Long id);
+
 }

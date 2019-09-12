@@ -49,7 +49,7 @@ public class OmsCartItemServiceImpl implements OmsCartItemService {
         if (existCartItem == null) {
             cartItem.setCreateDate(new Date());
             count = cartItemMapper.insert(cartItem);
-            id = count;
+            id = cartItem.getId().intValue();
         } else {
             cartItem.setModifyDate(new Date());
             existCartItem.setQuantity(existCartItem.getQuantity() + cartItem.getQuantity());

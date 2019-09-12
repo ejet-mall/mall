@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
-* Created by Mybatis Generator 2019/09/06
+* Created by Mybatis Generator 2019/09/12
 */
 @Data
 @Getter
@@ -24,6 +24,8 @@ public class BuCoreComment implements Serializable {
 
     @ApiModelProperty(value = "评价用户Id")
     private Long userId;
+
+    private String phone;
 
     @ApiModelProperty(value = "评价用户名称")
     private String userNickName;
@@ -88,6 +90,7 @@ public class BuCoreComment implements Serializable {
         sb.append(", productId=").append(productId);
         sb.append(", productName=").append(productName);
         sb.append(", userId=").append(userId);
+        sb.append(", phone=").append(phone);
         sb.append(", userNickName=").append(userNickName);
         sb.append(", userIcon=").append(userIcon);
         sb.append(", userIp=").append(userIp);

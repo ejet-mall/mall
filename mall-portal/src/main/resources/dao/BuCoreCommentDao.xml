@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.macro.mall.portal.dao.BuCoreCommentDao">
+
+    <resultMap id="listWithDetailMap" type="com.macro.mall.portal.domain.BuCoreCommentResult"
+               extends="com.macro.mall.mapper.BuCoreCommentMapper.ResultMapWithBLOBs">
+    </resultMap>
+
+    <select id="listWithDetail" resultMap="listWithDetailMap" parameterType="com.macro.mall.model.BuCoreCommentExample">
+        select *  from bu_core_comment
+        <if test="_parameter != null">
+            <include refid="com.macro.mall.mapper.BuCoreCommentMapper.Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+
+    </select>
+
+
+    <select id="getItem" resultMap="listWithDetailMap" >
+        select count(B.id) as totalNumber, AVG(star) as avgStar from bu_core_comment B
+        where B.product_id = #{id}
+    </select>
+
+
+
+
+</mapper>

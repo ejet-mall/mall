@@ -6,6 +6,7 @@
     <result column="product_id" jdbcType="BIGINT" property="productId" />
     <result column="product_name" jdbcType="VARCHAR" property="productName" />
     <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="user_nick_name" jdbcType="VARCHAR" property="userNickName" />
     <result column="user_icon" jdbcType="VARCHAR" property="userIcon" />
     <result column="user_ip" jdbcType="VARCHAR" property="userIp" />
@@ -85,8 +86,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, product_id, product_name, user_id, user_nick_name, user_icon, user_ip, star, 
-    create_time, is_top, is_good, read_count, like_count, unlike_count, reply_count, 
+    id, product_id, product_name, user_id, phone, user_nick_name, user_icon, user_ip, 
+    star, create_time, is_top, is_good, read_count, like_count, unlike_count, reply_count, 
     show_status, product_attribute, pics, update_time, ext
   </sql>
   <sql id="Blob_Column_List">
@@ -145,19 +146,21 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into bu_core_comment (product_id, product_name, user_id, 
-      user_nick_name, user_icon, user_ip, 
-      star, create_time, is_top, 
-      is_good, read_count, like_count, 
-      unlike_count, reply_count, show_status, 
-      product_attribute, pics, update_time, 
-      ext, content)
+      phone, user_nick_name, user_icon, 
+      user_ip, star, create_time, 
+      is_top, is_good, read_count, 
+      like_count, unlike_count, reply_count, 
+      show_status, product_attribute, pics, 
+      update_time, ext, content
+      )
     values (#{productId,jdbcType=BIGINT}, #{productName,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, 
-      #{userNickName,jdbcType=VARCHAR}, #{userIcon,jdbcType=VARCHAR}, #{userIp,jdbcType=VARCHAR}, 
-      #{star,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{isTop,jdbcType=INTEGER}, 
-      #{isGood,jdbcType=INTEGER}, #{readCount,jdbcType=INTEGER}, #{likeCount,jdbcType=INTEGER}, 
-      #{unlikeCount,jdbcType=INTEGER}, #{replyCount,jdbcType=INTEGER}, #{showStatus,jdbcType=INTEGER}, 
-      #{productAttribute,jdbcType=VARCHAR}, #{pics,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{ext,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR})
+      #{phone,jdbcType=VARCHAR}, #{userNickName,jdbcType=VARCHAR}, #{userIcon,jdbcType=VARCHAR}, 
+      #{userIp,jdbcType=VARCHAR}, #{star,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{isTop,jdbcType=INTEGER}, #{isGood,jdbcType=INTEGER}, #{readCount,jdbcType=INTEGER}, 
+      #{likeCount,jdbcType=INTEGER}, #{unlikeCount,jdbcType=INTEGER}, #{replyCount,jdbcType=INTEGER}, 
+      #{showStatus,jdbcType=INTEGER}, #{productAttribute,jdbcType=VARCHAR}, #{pics,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{ext,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.macro.mall.model.BuCoreComment">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -173,6 +176,9 @@
       </if>
       <if test="userId != null">
         user_id,
+      </if>
+      <if test="phone != null">
+        phone,
       </if>
       <if test="userNickName != null">
         user_nick_name,
@@ -235,6 +241,9 @@
       </if>
       <if test="userId != null">
         #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
       </if>
       <if test="userNickName != null">
         #{userNickName,jdbcType=VARCHAR},
@@ -310,6 +319,9 @@
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=BIGINT},
       </if>
+      <if test="record.phone != null">
+        phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
       <if test="record.userNickName != null">
         user_nick_name = #{record.userNickName,jdbcType=VARCHAR},
       </if>
@@ -372,6 +384,7 @@
       product_id = #{record.productId,jdbcType=BIGINT},
       product_name = #{record.productName,jdbcType=VARCHAR},
       user_id = #{record.userId,jdbcType=BIGINT},
+      phone = #{record.phone,jdbcType=VARCHAR},
       user_nick_name = #{record.userNickName,jdbcType=VARCHAR},
       user_icon = #{record.userIcon,jdbcType=VARCHAR},
       user_ip = #{record.userIp,jdbcType=VARCHAR},
@@ -399,6 +412,7 @@
       product_id = #{record.productId,jdbcType=BIGINT},
       product_name = #{record.productName,jdbcType=VARCHAR},
       user_id = #{record.userId,jdbcType=BIGINT},
+      phone = #{record.phone,jdbcType=VARCHAR},
       user_nick_name = #{record.userNickName,jdbcType=VARCHAR},
       user_icon = #{record.userIcon,jdbcType=VARCHAR},
       user_ip = #{record.userIp,jdbcType=VARCHAR},
@@ -430,6 +444,9 @@
       </if>
       <if test="userId != null">
         user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
       </if>
       <if test="userNickName != null">
         user_nick_name = #{userNickName,jdbcType=VARCHAR},
@@ -490,6 +507,7 @@
     set product_id = #{productId,jdbcType=BIGINT},
       product_name = #{productName,jdbcType=VARCHAR},
       user_id = #{userId,jdbcType=BIGINT},
+      phone = #{phone,jdbcType=VARCHAR},
       user_nick_name = #{userNickName,jdbcType=VARCHAR},
       user_icon = #{userIcon,jdbcType=VARCHAR},
       user_ip = #{userIp,jdbcType=VARCHAR},
@@ -514,6 +532,7 @@
     set product_id = #{productId,jdbcType=BIGINT},
       product_name = #{productName,jdbcType=VARCHAR},
       user_id = #{userId,jdbcType=BIGINT},
+      phone = #{phone,jdbcType=VARCHAR},
       user_nick_name = #{userNickName,jdbcType=VARCHAR},
       user_icon = #{userIcon,jdbcType=VARCHAR},
       user_ip = #{userIp,jdbcType=VARCHAR},

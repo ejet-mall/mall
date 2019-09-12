@@ -1,8 +1,11 @@
 package com.macro.mall.portal.service.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.macro.mall.common.api.CommonResult;
+import com.macro.mall.dto.OmsOrderQueryParam;
 import com.macro.mall.mapper.*;
 import com.macro.mall.model.*;
+import com.macro.mall.portal.auth.TokenHelper;
 import com.macro.mall.portal.component.CancelOrderSender;
 import com.macro.mall.portal.dao.PortalOrderDao;
 import com.macro.mall.portal.dao.PortalOrderItemDao;
@@ -805,5 +808,23 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
         calcAmount.setPayAmount(totalAmount.subtract(promotionAmount));
         return calcAmount;
     }
+
+
+
+
+
+    @Override
+    public List<OmsOrder> list(OmsOrderQueryParam queryParam, Integer pageSize, Integer pageNum) {
+        PageHelper.startPage(pageNum, pageSize);
+        Long memberId = memberService.getCurrentMember().getId();
+        queryParam.setMemberId(memberId);
+        return portalOrderDao.getList(queryParam);
+    }
+
+    @Override
+    public OmsOrderDetail detail(Long id) {
+        return portalOrderDao.getDetail(id);
+    }
+
 
 }
