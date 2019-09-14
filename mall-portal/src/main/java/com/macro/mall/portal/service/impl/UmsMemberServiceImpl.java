@@ -16,6 +16,7 @@ import com.macro.mall.model.*;
 import com.macro.mall.portal.auth.TokenHelper;
 import com.macro.mall.portal.constant.PortalConstant;
 import com.macro.mall.portal.domain.MemberDetails;
+import com.macro.mall.portal.domain.MemberParam;
 import com.macro.mall.portal.service.RedisService;
 import com.macro.mall.portal.service.UmsMemberService;
 import com.macro.mall.portal.util.JwtTokenUtil;
@@ -146,8 +147,37 @@ public class UmsMemberServiceImpl implements UmsMemberService {
         }
         UmsMember umsMember = memberList.get(0);
         //umsMember.setPassword(passwordEncoder.encode(password));
+        umsMember.setPassword(MD5Coder.getMD5(password));
         memberMapper.updateByPrimaryKeySelective(umsMember);
         return CommonResult.success(null,"密码修改成功");
+    }
+
+    @Override
+    public CommonResult updateUser(MemberParam memberParam, String authCode) {
+        UmsMember currentMember = getCurrentMember();
+        UmsMemberExample example = new UmsMemberExample();
+        example.createCriteria().andPhoneEqualTo(currentMember.getPhone());
+        List<UmsMember> memberList = memberMapper.selectByExample(example);
+        if(CollectionUtils.isEmpty(memberList)){
+            return CommonResult.failed("该账号不存在");
+        }
+        //验证验证码
+        if(!verifyAuthCode(authCode, currentMember.getPhone())){
+            return CommonResult.failed("验证码错误");
+        }
+        UmsMember umsMember = memberList.get(0);
+        umsMember.setPassword(MD5Coder.getMD5(memberParam.getPassword()));
+        umsMember.setUsername(memberParam.getUsername());
+        umsMember.setNickname(memberParam.getNickname());
+        umsMember.setBirthday(memberParam.getBirthday());
+        umsMember.setGender(memberParam.getGender());
+        umsMember.setPersonalizedSignature(memberParam.getPersonalizedSignature());
+        umsMember.setCity(memberParam.getCity());
+        umsMember.setIcon(memberParam.getIcon());
+        umsMember.setJob(memberParam.getJob());
+
+        memberMapper.updateByPrimaryKeySelective(umsMember);
+        return CommonResult.success(null,"修改用户信息成功");
     }
 
     @Override
@@ -184,24 +214,27 @@ public class UmsMemberServiceImpl implements UmsMemberService {
         return authCode.equals(realAuthCode);
     }
 
-
-
-
     /**
      * 生成并发送验证码
      */
-    public CommonResult sendAuthCode(String telephone) {
+    public String sendAuthCode(String telephone) {
         String code = RandomUtil.getRandomNumbers(6);
+
         SmsRequest req = new SmsRequest();
+        req.setPhone(telephone);
+        //req.setSignName("");
         SmsResponse codeResult = SmsFactory.sendSms(req);
         if("OK".equalsIgnoreCase(codeResult.getCode())) {
             // 验证码绑定手机号并存储到redis
             redisService.set(REDIS_KEY_PREFIX_AUTH_CODE + telephone, code);
             redisService.expire(REDIS_KEY_PREFIX_AUTH_CODE + telephone, AUTH_CODE_EXPIRE_SECONDS);
+        } else {
+            // 验证码绑定手机号并存储到redis
+            redisService.set(REDIS_KEY_PREFIX_AUTH_CODE + telephone, code);
+            redisService.expire(REDIS_KEY_PREFIX_AUTH_CODE + telephone, AUTH_CODE_EXPIRE_SECONDS);
+            return code;
         }
-        Map<String, String> smsParam = new HashMap<>();
-
-        return CommonResult.success(code,"发送验证码成功");
+        return code;
     }
 
     /**

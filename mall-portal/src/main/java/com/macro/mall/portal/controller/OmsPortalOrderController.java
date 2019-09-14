@@ -1,6 +1,7 @@
 package com.macro.mall.portal.controller;
 
 import com.ejet.core.kernel.utils.IOUtil;
+import com.github.pagehelper.PageInfo;
 import com.macro.mall.common.api.CommonPage;
 import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.dto.OmsOrderQueryParam;
@@ -89,13 +90,13 @@ public class OmsPortalOrderController {
 
 
     @ApiOperation("查询订单")
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult<CommonPage<OmsOrder>> list(OmsOrderQueryParam queryParam,
+    public CommonResult<CommonPage<OmsOrderDetail>> list(@RequestBody OmsOrderQueryParam queryParam,
                                                    @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
                                                    @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
-        List<OmsOrder> orderList = portalOrderService.list(queryParam, pageSize, pageNum);
-        return CommonResult.success(CommonPage.restPage(orderList));
+        CommonPage<OmsOrderDetail> orderList = portalOrderService.orderslist(queryParam, pageSize, pageNum);
+        return CommonResult.success(orderList);
     }
 
     @ApiOperation("获取订单详情:订单信息、商品信息、操作记录")

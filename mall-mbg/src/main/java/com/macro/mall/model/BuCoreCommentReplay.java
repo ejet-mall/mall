@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
-* Created by Mybatis Generator 2019/09/12
+* Created by Mybatis Generator 2019/09/14
 */
 @Data
 @Getter
@@ -29,9 +29,6 @@ public class BuCoreCommentReplay implements Serializable {
 
     @ApiModelProperty(value = "评论用户头像")
     private String userIcon;
-
-    @ApiModelProperty(value = "回复时间")
-    private Date createTime;
 
     @ApiModelProperty(value = "展示状态: 1:展示 2：不展示")
     private Integer showStatus;
@@ -60,6 +57,9 @@ public class BuCoreCommentReplay implements Serializable {
     @ApiModelProperty(value = "回复数")
     private Integer replyCount;
 
+    @ApiModelProperty(value = "回复时间")
+    private Date createTime;
+
     @ApiModelProperty(value = "修改时间")
     private Date updateTime;
 
@@ -83,7 +83,6 @@ public class BuCoreCommentReplay implements Serializable {
         sb.append(", phone=").append(phone);
         sb.append(", userNickName=").append(userNickName);
         sb.append(", userIcon=").append(userIcon);
-        sb.append(", createTime=").append(createTime);
         sb.append(", showStatus=").append(showStatus);
         sb.append(", type=").append(type);
         sb.append(", replyOrder=").append(replyOrder);
@@ -93,6 +92,7 @@ public class BuCoreCommentReplay implements Serializable {
         sb.append(", likeCount=").append(likeCount);
         sb.append(", unlikeCount=").append(unlikeCount);
         sb.append(", replyCount=").append(replyCount);
+        sb.append(", createTime=").append(createTime);
         sb.append(", updateTime=").append(updateTime);
         sb.append(", ext=").append(ext);
         sb.append(", content=").append(content);

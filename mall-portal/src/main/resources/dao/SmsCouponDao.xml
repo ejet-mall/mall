@@ -7,6 +7,11 @@
         <collection property="productCategoryRelationList" columnPrefix="cpcr_" resultMap="com.macro.mall.mapper.SmsCouponProductCategoryRelationMapper.BaseResultMap">
         </collection>
     </resultMap>
+
+    <resultMap id="couponItemHistory" type="com.macro.mall.dto.SmsCouponResult" extends="com.macro.mall.mapper.SmsCouponMapper.BaseResultMap">
+
+    </resultMap>
+
     <select id="getItem" resultMap="couponItemParam">
         SELECT
             c.*,
@@ -25,4 +30,16 @@
         WHERE
             c.id = #{id}
     </select>
+
+    <select id="listCoupon" resultMap="couponItemHistory" parameterType="com.macro.mall.dto.SmsCouponResult">
+        SELECT B.*,
+        H.coupon_code,
+        H.coupon_id,
+        H.get_type,
+        H.create_time,
+        H.use_status
+        FROM sms_coupon_history H left JOIN sms_coupon B  ON H.coupon_id=B.id
+        AND H.member_id=#{memberId}
+    </select>
+
 </mapper>

@@ -3,12 +3,13 @@ package com.macro.mall.model;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 /**
-* Created by Mybatis Generator 2019/09/12
+* Created by Mybatis Generator 2019/09/14
 */
 @Data
 @Getter
@@ -31,6 +32,9 @@ public class OmsOrderItem implements Serializable {
     private String productBrand;
 
     private String productSn;
+
+    @ApiModelProperty(value = "商品副标题")
+    private String productSubTitle;
 
     @ApiModelProperty(value = "销售价格")
     private BigDecimal productPrice;
@@ -76,6 +80,12 @@ public class OmsOrderItem implements Serializable {
     @ApiModelProperty(value = "商品销售属性:[{'key':'颜色','value':'颜色'},{'key':'容量','value':'4G'}]")
     private String productAttr;
 
+    @ApiModelProperty(value = "评价状态 0:未评论，1：已经评论")
+    private Integer commentStatus;
+
+    @ApiModelProperty(value = "评论时间")
+    private Date commentTime;
+
     private static final long serialVersionUID = 1L;
 
     @Override
@@ -92,6 +102,7 @@ public class OmsOrderItem implements Serializable {
         sb.append(", productName=").append(productName);
         sb.append(", productBrand=").append(productBrand);
         sb.append(", productSn=").append(productSn);
+        sb.append(", productSubTitle=").append(productSubTitle);
         sb.append(", productPrice=").append(productPrice);
         sb.append(", productQuantity=").append(productQuantity);
         sb.append(", productSkuId=").append(productSkuId);
@@ -108,6 +119,8 @@ public class OmsOrderItem implements Serializable {
         sb.append(", giftIntegration=").append(giftIntegration);
         sb.append(", giftGrowth=").append(giftGrowth);
         sb.append(", productAttr=").append(productAttr);
+        sb.append(", commentStatus=").append(commentStatus);
+        sb.append(", commentTime=").append(commentTime);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

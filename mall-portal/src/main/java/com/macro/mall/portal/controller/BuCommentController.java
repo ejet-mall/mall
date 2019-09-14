@@ -57,17 +57,17 @@ public class BuCommentController {
     }
 
     @ApiOperation("分页查询商品评论")
-    @RequestMapping(value = "/list/{productId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ResponseBody
     //@PreAuthorize("hasAuthority('bu:productComment:read')")
-    public CommonResult<CommonPage<BuCoreCommentResult>> getList(@PathVariable BuCoreCommentParam queryParam,
+    public CommonResult<CommonPage<BuCoreCommentResult>> getList(@RequestBody BuCoreCommentParam queryParam,
                                                                  @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
                                                                  @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
         List<BuCoreCommentResult> productCommentList = buCoreCommentService.list(queryParam, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(productCommentList));
     }
 
-    @ApiOperation("根据id获取商品评论")
+    @ApiOperation("根据id获取商品评论星级和评论数量")
     @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
     @ResponseBody
     //@PreAuthorize("hasAuthority('bu:productComment:read')")

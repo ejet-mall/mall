@@ -55,6 +55,17 @@ public class UmsMemberReceiveAddressController {
         return CommonResult.failed();
     }
 
+    @ApiOperation("修改为默认收货地址")
+    @RequestMapping(value = "/updateDefault/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult updateDefault(@PathVariable Long id) {
+        int count = memberReceiveAddressService.updateDefault(id);
+        if (count > 0) {
+            return CommonResult.success(count);
+        }
+        return CommonResult.failed();
+    }
+
     @ApiOperation("显示所有收货地址")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody

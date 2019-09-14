@@ -1,12 +1,14 @@
 package com.macro.mall.portal.controller;
 
 import com.macro.mall.common.api.CommonResult;
+import com.macro.mall.dto.SmsCouponResult;
 import com.macro.mall.model.SmsCouponHistory;
 import com.macro.mall.portal.domain.CartPromotionItem;
 import com.macro.mall.portal.domain.OrderParam;
 import com.macro.mall.portal.domain.OrderPromotionParam;
 import com.macro.mall.portal.domain.SmsCouponHistoryDetail;
 import com.macro.mall.portal.service.OmsCartItemService;
+import com.macro.mall.portal.service.SmsCouponService;
 import com.macro.mall.portal.service.UmsMemberCouponService;
 import com.macro.mall.portal.service.UmsMemberService;
 import io.swagger.annotations.Api;
@@ -33,6 +35,8 @@ public class UmsMemberCouponController {
     private OmsCartItemService cartItemService;
     @Autowired
     private UmsMemberService memberService;
+    @Autowired
+    private SmsCouponService couponService;
 
     @ApiOperation("领取指定优惠券")
     @RequestMapping(value = "/add/{couponId}", method = RequestMethod.POST)
@@ -46,8 +50,8 @@ public class UmsMemberCouponController {
             allowableValues = "0,1,2", paramType = "query", dataType = "integer")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult<List<SmsCouponHistory>> list(@RequestParam(value = "useStatus", required = false) Integer useStatus) {
-        List<SmsCouponHistory> couponHistoryList = memberCouponService.list(useStatus);
+    public CommonResult<List<SmsCouponResult>> list(@RequestParam(value = "useStatus", required = false) Integer useStatus) {
+        List<SmsCouponResult> couponHistoryList = couponService.listCoupon(useStatus);
         return CommonResult.success(couponHistoryList);
     }
 

@@ -47,6 +47,28 @@ public class UmsMemberReceiveAddressServiceImpl implements UmsMemberReceiveAddre
     }
 
     @Override
+    public int updateDefault(Long id) {
+        UmsMember currentMember = memberService.getCurrentMember();
+
+        UmsMemberReceiveAddress address = getItem(id);
+        if(address==null) { //没有找到地址
+            return 0;
+        }
+
+        UmsMemberReceiveAddressExample updateExample = new UmsMemberReceiveAddressExample();
+        updateExample.createCriteria().andMemberIdEqualTo(currentMember.getId());
+        UmsMemberReceiveAddress updateNotDefault  = new UmsMemberReceiveAddress();
+        updateNotDefault.setDefaultStatus(0);
+        addressMapper.updateByExampleSelective(address,updateExample);
+
+        UmsMemberReceiveAddressExample updateDefaultExample = new UmsMemberReceiveAddressExample();
+        updateDefaultExample.createCriteria().andMemberIdEqualTo(currentMember.getId()).andIdEqualTo(id);
+        UmsMemberReceiveAddress updateDefault  = new UmsMemberReceiveAddress();
+        updateDefault.setDefaultStatus(1);//1:默认
+        return addressMapper.updateByExampleSelective(address,updateExample);
+    }
+
+    @Override
     public List<UmsMemberReceiveAddress> list() {
         UmsMember currentMember = memberService.getCurrentMember();
         UmsMemberReceiveAddressExample example = new UmsMemberReceiveAddressExample();

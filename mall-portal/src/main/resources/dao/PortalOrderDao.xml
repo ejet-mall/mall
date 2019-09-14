@@ -7,6 +7,13 @@
                     resultMap="com.macro.mall.mapper.OmsOrderItemMapper.BaseResultMap">
         </collection>
     </resultMap>
+
+    <!--<resultMap id="orderMap" type="com.macro.mall.portal.domain.OmsOrderDetail"-->
+               <!--extends="com.macro.mall.mapper.OmsOrderMapper.BaseResultMap">-->
+        <!---->
+    <!--</resultMap>-->
+
+
     <select id="getDetail" resultMap="orderDetailMap">
         SELECT
             o.id,
@@ -16,6 +23,12 @@
             o.member_id,
             ot.id ot_id,
             ot.product_name ot_product_name,
+            ot.product_brand ot_product_brand,
+            ot.product_pic ot_product_pic,
+            ot.product_id ot_product_id,
+            ot.product_price ot_product_price,
+            ot.product_sub_title ot_product_sub_title,
+
             ot.product_sku_id ot_product_sku_id,
             ot.product_sku_code ot_product_sku_code,
             ot.product_quantity ot_product_quantity
@@ -91,34 +104,113 @@
 
 
 
+
     <select id="getList" resultMap="com.macro.mall.mapper.OmsOrderMapper.BaseResultMap">
-        SELECT *
+        SELECT
+        o.*
         FROM
-        oms_order
-        WHERE
-        delete_status = 0
+        oms_order o
+        WHERE 1=1
+        <if test="queryParam.deleteStatus!=null">
+            AND o.delete_status = #{queryParam.deleteStatus}
+        </if>
         <if test="queryParam.orderSn!=null and queryParam.orderSn!=''">
-            AND order_sn = #{queryParam.orderSn}
+            AND o.order_sn = #{queryParam.orderSn}
         </if>
         <if test="queryParam.status!=null">
-            AND `status` = #{queryParam.status}
+            AND o.`status` = #{queryParam.status}
         </if>
         <if test="queryParam.memberId!=null">
-            AND `member_id` = #{queryParam.memberId}
+            AND o.`member_id` = #{queryParam.memberId}
         </if>
         <if test="queryParam.sourceType!=null">
-            AND source_type = #{queryParam.sourceType}
+            AND o.source_type = #{queryParam.sourceType}
         </if>
         <if test="queryParam.orderType!=null">
-            AND order_type = #{queryParam.orderType}
+            AND o.order_type = #{queryParam.orderType}
         </if>
         <if test="queryParam.createTime!=null and queryParam.createTime!=''">
-            AND create_time LIKE concat(#{queryParam.createTime},"%")
+            AND o.create_time LIKE concat(#{queryParam.createTime},"%")
         </if>
         <if test="queryParam.receiverKeyword!=null and queryParam.receiverKeyword!=''">
             AND (
-            receiver_name LIKE concat("%",#{queryParam.receiverKeyword},"%")
-            OR receiver_phone LIKE concat("%",#{queryParam.receiverKeyword},"%")
+            o.receiver_name LIKE concat("%",#{queryParam.receiverKeyword},"%")
+            OR o.receiver_phone LIKE concat("%",#{queryParam.receiverKeyword},"%")
+            )
+        </if>
+    </select>
+
+
+    <select id="getListDetail" resultMap="orderDetailMap">
+        SELECT
+        o.id,
+        o.order_sn,
+        o.coupon_id,
+        o.integration,
+        o.create_time,
+        o.member_id,
+        o.status,
+        o.total_amount,
+        o.pay_amount,
+        o.freight_amount,
+        o.promotion_amount,
+        o.integration_amount,
+        o.coupon_amount,
+        o.discount_amount,
+
+        o.note,
+        o.confirm_status,
+        o.payment_time,
+        o.delivery_time,
+        o.receive_time,
+        o.comment_time,
+
+        ot.id ot_id,
+        ot.product_name ot_product_name,
+        ot.product_brand ot_product_brand,
+        ot.product_pic ot_product_pic,
+        ot.product_id ot_product_id,
+        ot.product_price ot_product_price,
+        ot.product_sub_title ot_product_sub_title,
+        ot.comment_status ot_comment_status,
+        ot.comment_time ot_comment_time,
+        ot.product_attr ot_product_attr,
+
+        ot.product_sku_id ot_product_sku_id,
+        ot.product_sku_code ot_product_sku_code,
+        ot.product_quantity ot_product_quantity
+        FROM
+        oms_order o
+        LEFT JOIN oms_order_item ot ON o.id = ot.order_id
+        WHERE o.delete_status = 0
+        <if test="queryParam.ids!=null and queryParam.ids.size()>0">
+            AND o.id in
+            <foreach item="item" index="index" collection="queryParam.ids" open="(" separator="," close=")">
+             #{item}
+            </foreach>
+        </if>
+        <if test="queryParam.orderSn!=null and queryParam.orderSn!=''">
+            AND o.order_sn = #{queryParam.orderSn}
+        </if>
+        <if test="queryParam.status!=null">
+            AND o.`status` = #{queryParam.status}
+        </if>
+        <if test="queryParam.memberId!=null">
+            AND o.`member_id` = #{queryParam.memberId}
+        </if>
+        <if test="queryParam.sourceType!=null">
+            AND o.source_type = #{queryParam.sourceType}
+        </if>
+        <if test="queryParam.orderType!=null">
+            AND o.order_type = #{queryParam.orderType}
+        </if>
+        <if test="queryParam.createTime!=null and queryParam.createTime!=''">
+            AND o.create_time LIKE concat(#{queryParam.createTime},"%")
+        </if>
+        <if test="queryParam.receiverKeyword!=null and queryParam.receiverKeyword!=''">
+            AND (
+            o.receiver_name LIKE concat("%",#{queryParam.receiverKeyword},"%")
+            OR o.receiver_phone LIKE concat("%",#{queryParam.receiverKeyword},"%")
             )
         </if>
     </select>

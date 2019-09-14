@@ -18,7 +18,6 @@ import java.util.List;
 
 /**
  * 用户Token验证拦截器
- *
  */
 public class TokenAuthInterceptor implements HandlerInterceptor {
     Logger logger = LoggerFactory.getLogger(TokenAuthInterceptor.class);
@@ -48,6 +47,7 @@ public class TokenAuthInterceptor implements HandlerInterceptor {
         excludePath.add("/productCategory/**");
         excludePath.add("/flash/**");
         excludePath.add("/brand/**");
+        excludePath.add("/subject/**");
 
         excludePath.add("/productComment/list/**");
         excludePath.add("/productComment/get/**");

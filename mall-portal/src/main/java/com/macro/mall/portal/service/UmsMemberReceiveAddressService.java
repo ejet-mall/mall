@@ -1,6 +1,7 @@
 package com.macro.mall.portal.service;
 
 import com.macro.mall.model.UmsMemberReceiveAddress;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -26,6 +27,13 @@ public interface UmsMemberReceiveAddressService {
      * @param address 修改的收货地址信息
      */
     int update(Long id, UmsMemberReceiveAddress address);
+    /**
+     * 修改为默认地址
+     * @param id
+     * @return
+     */
+    @Transactional
+    int updateDefault(Long id);
 
     /**
      * 返回当前用户的收货地址

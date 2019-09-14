@@ -1,15 +1,13 @@
 package com.macro.mall.portal.controller;
 
 import com.macro.mall.common.api.CommonResult;
+import com.macro.mall.portal.domain.MemberParam;
 import com.macro.mall.portal.service.UmsMemberService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,7 +37,11 @@ public class UmsMemberController {
     @RequestMapping(value = "/getAuthCode", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult getAuthCode(@RequestParam String telephone) {
-        return memberService.sendAuthCode(telephone);
+        String code = memberService.sendAuthCode(telephone);
+        if(code==null) {
+            return CommonResult.failed("获取验证码失败!");
+        }
+        return CommonResult.success(code, "发送成功!");
     }
 
     @ApiOperation("修改密码")
@@ -51,6 +53,13 @@ public class UmsMemberController {
         return memberService.updatePassword(telephone,password,authCode);
     }
 
+    @ApiOperation("修改用户信息")
+    @RequestMapping(value = "/updateUser", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult updateUser(@RequestBody MemberParam memberParam,
+                                       @RequestParam String authCode) {
+        return memberService.updateUser(memberParam,authCode);
+    }
 
     @ApiOperation("登录")
     @RequestMapping(value = "/login", method = RequestMethod.POST)

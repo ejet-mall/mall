@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.macro.mall.dao.CmsSubjectDao">
+
+    <resultMap id="cmsSubjectMap" type="com.macro.mall.dto.CmsSubjectProductResult" extends="com.macro.mall.mapper.PmsProductMapper.ResultMapWithBLOBs">
+
+    </resultMap>
+
+
+    <select id="getProductList" resultMap="cmsSubjectMap">
+        SELECT R.*, p.*
+        FROM pms_product p
+		INNER JOIN cms_subject_product_relation R ON p.id = R.product_id
+		AND p.delete_status=0 AND publish_status=1
+        AND R.subject_id=#{subjectId}
+        ORDER BY p.sort, p.sale
+    </select>
+
+</mapper>

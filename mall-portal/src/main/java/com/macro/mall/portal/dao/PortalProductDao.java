@@ -11,6 +11,8 @@ import java.util.List;
  * Created by macro on 2018/8/2.
  */
 public interface PortalProductDao {
+
     CartProduct getCartProduct(@Param("id") Long id);
+
     List<PromotionProduct> getPromotionProductList(@Param("ids") List<Long> ids);
 }

@@ -27,6 +27,8 @@
 
         <pagehelper.version>5.1.8</pagehelper.version>
 
+        <skipTests>true</skipTests>
+
     </properties>
 
 

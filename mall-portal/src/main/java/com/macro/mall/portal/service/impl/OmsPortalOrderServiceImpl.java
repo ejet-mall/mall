@@ -1,6 +1,9 @@
 package com.macro.mall.portal.service.impl;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.macro.mall.common.api.CommonPage;
 import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.dto.OmsOrderQueryParam;
 import com.macro.mall.mapper.*;
@@ -100,6 +103,7 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
             orderItem.setProductId(cartPromotionItem.getProductId());
             orderItem.setProductName(cartPromotionItem.getProductName());
             orderItem.setProductPic(cartPromotionItem.getProductPic());
+            orderItem.setProductSubTitle(cartPromotionItem.getProductSubTitle());
             orderItem.setProductAttr(cartPromotionItem.getProductAttr());
             orderItem.setProductBrand(cartPromotionItem.getProductBrand());
             orderItem.setProductSn(cartPromotionItem.getProductSn());
@@ -246,6 +250,7 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
             orderItem.setProductId(cartPromotionItem.getProductId());
             orderItem.setProductName(cartPromotionItem.getProductName());
             orderItem.setProductPic(cartPromotionItem.getProductPic());
+            orderItem.setProductSubTitle(cartPromotionItem.getProductSubTitle());
             orderItem.setProductAttr(cartPromotionItem.getProductAttr());
             orderItem.setProductBrand(cartPromotionItem.getProductBrand());
             orderItem.setProductSn(cartPromotionItem.getProductSn());
@@ -810,15 +815,37 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
     }
 
 
-
-
-
     @Override
     public List<OmsOrder> list(OmsOrderQueryParam queryParam, Integer pageSize, Integer pageNum) {
         PageHelper.startPage(pageNum, pageSize);
         Long memberId = memberService.getCurrentMember().getId();
         queryParam.setMemberId(memberId);
-        return portalOrderDao.getList(queryParam);
+        queryParam.setDeleteStatus(queryParam.getDeleteStatus()==null ? 0 : queryParam.getDeleteStatus());
+        List<OmsOrder> list = portalOrderDao.getList(queryParam);
+        return list;
+    }
+
+    @Override
+    public CommonPage<OmsOrderDetail> orderslist(OmsOrderQueryParam queryParam, Integer pageSize, Integer pageNum) {
+        List<OmsOrder> list = list(queryParam, pageSize, pageNum);
+        CommonPage<OmsOrderDetail> detail = null;
+        List<OmsOrderDetail> detailList = null;
+        if(list!=null && list.size()>0) {
+            List<Long> ids = new ArrayList<>();
+            for(OmsOrder item:list) {
+                ids.add(item.getId());
+            }
+            queryParam.setIds(ids);
+            detailList = portalOrderDao.getListDetail(queryParam);
+
+            CommonPage page = CommonPage.restPage(list);
+            detail = CommonPage.restPage(detailList);
+            detail.setPageNum(page.getPageNum());
+            detail.setPageSize(page.getPageSize());
+            detail.setTotalPage(page.getTotalPage());
+            detail.setTotal(page.getTotal());
+        }
+        return detail;
     }
 
     @Override

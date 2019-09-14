@@ -10,6 +10,7 @@
     <result column="product_name" jdbcType="VARCHAR" property="productName" />
     <result column="product_brand" jdbcType="VARCHAR" property="productBrand" />
     <result column="product_sn" jdbcType="VARCHAR" property="productSn" />
+    <result column="product_sub_title" jdbcType="VARCHAR" property="productSubTitle" />
     <result column="product_price" jdbcType="DECIMAL" property="productPrice" />
     <result column="product_quantity" jdbcType="INTEGER" property="productQuantity" />
     <result column="product_sku_id" jdbcType="BIGINT" property="productSkuId" />
@@ -26,6 +27,8 @@
     <result column="gift_integration" jdbcType="INTEGER" property="giftIntegration" />
     <result column="gift_growth" jdbcType="INTEGER" property="giftGrowth" />
     <result column="product_attr" jdbcType="VARCHAR" property="productAttr" />
+    <result column="comment_status" jdbcType="INTEGER" property="commentStatus" />
+    <result column="comment_time" jdbcType="TIMESTAMP" property="commentTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -87,9 +90,10 @@
   </sql>
   <sql id="Base_Column_List">
     id, order_id, order_sn, product_id, product_pic, product_name, product_brand, product_sn, 
-    product_price, product_quantity, product_sku_id, product_sku_code, product_category_id, 
-    sp1, sp2, sp3, promotion_name, promotion_amount, coupon_amount, integration_amount, 
-    real_amount, gift_integration, gift_growth, product_attr
+    product_sub_title, product_price, product_quantity, product_sku_id, product_sku_code, 
+    product_category_id, sp1, sp2, sp3, promotion_name, promotion_amount, coupon_amount, 
+    integration_amount, real_amount, gift_integration, gift_growth, product_attr, comment_status, 
+    comment_time
   </sql>
   <select id="selectByExample" parameterType="com.macro.mall.model.OmsOrderItemExample" resultMap="BaseResultMap">
     select
@@ -127,20 +131,22 @@
     </selectKey>
     insert into oms_order_item (order_id, order_sn, product_id, 
       product_pic, product_name, product_brand, 
-      product_sn, product_price, product_quantity, 
-      product_sku_id, product_sku_code, product_category_id, 
-      sp1, sp2, sp3, promotion_name, 
-      promotion_amount, coupon_amount, integration_amount, 
-      real_amount, gift_integration, gift_growth, 
-      product_attr)
+      product_sn, product_sub_title, product_price, 
+      product_quantity, product_sku_id, product_sku_code, 
+      product_category_id, sp1, sp2, 
+      sp3, promotion_name, promotion_amount, 
+      coupon_amount, integration_amount, real_amount, 
+      gift_integration, gift_growth, product_attr, 
+      comment_status, comment_time)
     values (#{orderId,jdbcType=BIGINT}, #{orderSn,jdbcType=VARCHAR}, #{productId,jdbcType=BIGINT}, 
       #{productPic,jdbcType=VARCHAR}, #{productName,jdbcType=VARCHAR}, #{productBrand,jdbcType=VARCHAR}, 
-      #{productSn,jdbcType=VARCHAR}, #{productPrice,jdbcType=DECIMAL}, #{productQuantity,jdbcType=INTEGER}, 
-      #{productSkuId,jdbcType=BIGINT}, #{productSkuCode,jdbcType=VARCHAR}, #{productCategoryId,jdbcType=BIGINT}, 
-      #{sp1,jdbcType=VARCHAR}, #{sp2,jdbcType=VARCHAR}, #{sp3,jdbcType=VARCHAR}, #{promotionName,jdbcType=VARCHAR}, 
-      #{promotionAmount,jdbcType=DECIMAL}, #{couponAmount,jdbcType=DECIMAL}, #{integrationAmount,jdbcType=DECIMAL}, 
-      #{realAmount,jdbcType=DECIMAL}, #{giftIntegration,jdbcType=INTEGER}, #{giftGrowth,jdbcType=INTEGER}, 
-      #{productAttr,jdbcType=VARCHAR})
+      #{productSn,jdbcType=VARCHAR}, #{productSubTitle,jdbcType=VARCHAR}, #{productPrice,jdbcType=DECIMAL}, 
+      #{productQuantity,jdbcType=INTEGER}, #{productSkuId,jdbcType=BIGINT}, #{productSkuCode,jdbcType=VARCHAR}, 
+      #{productCategoryId,jdbcType=BIGINT}, #{sp1,jdbcType=VARCHAR}, #{sp2,jdbcType=VARCHAR}, 
+      #{sp3,jdbcType=VARCHAR}, #{promotionName,jdbcType=VARCHAR}, #{promotionAmount,jdbcType=DECIMAL}, 
+      #{couponAmount,jdbcType=DECIMAL}, #{integrationAmount,jdbcType=DECIMAL}, #{realAmount,jdbcType=DECIMAL}, 
+      #{giftIntegration,jdbcType=INTEGER}, #{giftGrowth,jdbcType=INTEGER}, #{productAttr,jdbcType=VARCHAR}, 
+      #{commentStatus,jdbcType=INTEGER}, #{commentTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.macro.mall.model.OmsOrderItem">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -168,6 +174,9 @@
       </if>
       <if test="productSn != null">
         product_sn,
+      </if>
+      <if test="productSubTitle != null">
+        product_sub_title,
       </if>
       <if test="productPrice != null">
         product_price,
@@ -217,6 +226,12 @@
       <if test="productAttr != null">
         product_attr,
       </if>
+      <if test="commentStatus != null">
+        comment_status,
+      </if>
+      <if test="commentTime != null">
+        comment_time,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="orderId != null">
@@ -239,6 +254,9 @@
       </if>
       <if test="productSn != null">
         #{productSn,jdbcType=VARCHAR},
+      </if>
+      <if test="productSubTitle != null">
+        #{productSubTitle,jdbcType=VARCHAR},
       </if>
       <if test="productPrice != null">
         #{productPrice,jdbcType=DECIMAL},
@@ -288,6 +306,12 @@
       <if test="productAttr != null">
         #{productAttr,jdbcType=VARCHAR},
       </if>
+      <if test="commentStatus != null">
+        #{commentStatus,jdbcType=INTEGER},
+      </if>
+      <if test="commentTime != null">
+        #{commentTime,jdbcType=TIMESTAMP},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.macro.mall.model.OmsOrderItemExample" resultType="java.lang.Long">
@@ -322,6 +346,9 @@
       </if>
       <if test="record.productSn != null">
         product_sn = #{record.productSn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productSubTitle != null">
+        product_sub_title = #{record.productSubTitle,jdbcType=VARCHAR},
       </if>
       <if test="record.productPrice != null">
         product_price = #{record.productPrice,jdbcType=DECIMAL},
@@ -371,6 +398,12 @@
       <if test="record.productAttr != null">
         product_attr = #{record.productAttr,jdbcType=VARCHAR},
       </if>
+      <if test="record.commentStatus != null">
+        comment_status = #{record.commentStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.commentTime != null">
+        comment_time = #{record.commentTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -386,6 +419,7 @@
       product_name = #{record.productName,jdbcType=VARCHAR},
       product_brand = #{record.productBrand,jdbcType=VARCHAR},
       product_sn = #{record.productSn,jdbcType=VARCHAR},
+      product_sub_title = #{record.productSubTitle,jdbcType=VARCHAR},
       product_price = #{record.productPrice,jdbcType=DECIMAL},
       product_quantity = #{record.productQuantity,jdbcType=INTEGER},
       product_sku_id = #{record.productSkuId,jdbcType=BIGINT},
@@ -401,7 +435,9 @@
       real_amount = #{record.realAmount,jdbcType=DECIMAL},
       gift_integration = #{record.giftIntegration,jdbcType=INTEGER},
       gift_growth = #{record.giftGrowth,jdbcType=INTEGER},
-      product_attr = #{record.productAttr,jdbcType=VARCHAR}
+      product_attr = #{record.productAttr,jdbcType=VARCHAR},
+      comment_status = #{record.commentStatus,jdbcType=INTEGER},
+      comment_time = #{record.commentTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -429,6 +465,9 @@
       </if>
       <if test="productSn != null">
         product_sn = #{productSn,jdbcType=VARCHAR},
+      </if>
+      <if test="productSubTitle != null">
+        product_sub_title = #{productSubTitle,jdbcType=VARCHAR},
       </if>
       <if test="productPrice != null">
         product_price = #{productPrice,jdbcType=DECIMAL},
@@ -478,6 +517,12 @@
       <if test="productAttr != null">
         product_attr = #{productAttr,jdbcType=VARCHAR},
       </if>
+      <if test="commentStatus != null">
+        comment_status = #{commentStatus,jdbcType=INTEGER},
+      </if>
+      <if test="commentTime != null">
+        comment_time = #{commentTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -490,6 +535,7 @@
       product_name = #{productName,jdbcType=VARCHAR},
       product_brand = #{productBrand,jdbcType=VARCHAR},
       product_sn = #{productSn,jdbcType=VARCHAR},
+      product_sub_title = #{productSubTitle,jdbcType=VARCHAR},
       product_price = #{productPrice,jdbcType=DECIMAL},
       product_quantity = #{productQuantity,jdbcType=INTEGER},
       product_sku_id = #{productSkuId,jdbcType=BIGINT},
@@ -505,7 +551,9 @@
       real_amount = #{realAmount,jdbcType=DECIMAL},
       gift_integration = #{giftIntegration,jdbcType=INTEGER},
       gift_growth = #{giftGrowth,jdbcType=INTEGER},
-      product_attr = #{productAttr,jdbcType=VARCHAR}
+      product_attr = #{productAttr,jdbcType=VARCHAR},
+      comment_status = #{commentStatus,jdbcType=INTEGER},
+      comment_time = #{commentTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

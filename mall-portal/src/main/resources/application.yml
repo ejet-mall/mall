@@ -18,7 +18,7 @@ def-redis:
       authCode: "portal:authCode:"
       orderId: "portal:orderId:"
     expire:
-      authCode: 90 # 验证码超期时间
+      authCode: 300 # 验证码超期时间
 
 # 消息队列定义
 rabbitmq:

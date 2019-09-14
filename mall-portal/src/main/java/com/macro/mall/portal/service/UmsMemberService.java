@@ -4,6 +4,7 @@ import com.ejet.core.kernel.exception.CoBusinessException;
 import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.model.UmsMember;
 import com.macro.mall.portal.domain.MemberDetails;
+import com.macro.mall.portal.domain.MemberParam;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -41,7 +42,11 @@ public interface UmsMemberService {
      */
     @Transactional
     CommonResult updatePassword(String telephone, String password, String authCode);
-
+    /**
+     * 修改用户信息
+     */
+    @Transactional
+    CommonResult updateUser(MemberParam memberParam, String authCode);
     /**
      * 获取当前登录会员
      */
@@ -59,7 +64,7 @@ public interface UmsMemberService {
     /**
      * 生成并发送验证码
      */
-    CommonResult sendAuthCode(String telephone);
+    String sendAuthCode(String telephone);
     /**
      * 登录功能
      * @param username 用户名

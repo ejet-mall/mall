@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
-* Created by Mybatis Generator 2019/09/12
+* Created by Mybatis Generator 2019/09/14
 */
 @Data
 @Getter
@@ -21,6 +21,15 @@ public class BuCoreComment implements Serializable {
 
     @ApiModelProperty(value = "产品资源名称")
     private String productName;
+
+    @ApiModelProperty(value = "产品资源简述")
+    private String productSubject;
+
+    @ApiModelProperty(value = "产品资源图片路径")
+    private String productPic;
+
+    @ApiModelProperty(value = "预留")
+    private String productExt;
 
     @ApiModelProperty(value = "评价用户Id")
     private Long userId;
@@ -38,9 +47,6 @@ public class BuCoreComment implements Serializable {
 
     @ApiModelProperty(value = "评价星数：0->5")
     private Integer star;
-
-    @ApiModelProperty(value = "评论时间")
-    private Date createTime;
 
     @ApiModelProperty(value = "是否置顶: 0->否 1->是 ")
     private Integer isTop;
@@ -69,6 +75,9 @@ public class BuCoreComment implements Serializable {
     @ApiModelProperty(value = "上传图片地址，以逗号隔开")
     private String pics;
 
+    @ApiModelProperty(value = "评论时间")
+    private Date createTime;
+
     @ApiModelProperty(value = "修改时间")
     private Date updateTime;
 
@@ -89,13 +98,15 @@ public class BuCoreComment implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", productId=").append(productId);
         sb.append(", productName=").append(productName);
+        sb.append(", productSubject=").append(productSubject);
+        sb.append(", productPic=").append(productPic);
+        sb.append(", productExt=").append(productExt);
         sb.append(", userId=").append(userId);
         sb.append(", phone=").append(phone);
         sb.append(", userNickName=").append(userNickName);
         sb.append(", userIcon=").append(userIcon);
         sb.append(", userIp=").append(userIp);
         sb.append(", star=").append(star);
-        sb.append(", createTime=").append(createTime);
         sb.append(", isTop=").append(isTop);
         sb.append(", isGood=").append(isGood);
         sb.append(", readCount=").append(readCount);
@@ -105,6 +116,7 @@ public class BuCoreComment implements Serializable {
         sb.append(", showStatus=").append(showStatus);
         sb.append(", productAttribute=").append(productAttribute);
         sb.append(", pics=").append(pics);
+        sb.append(", createTime=").append(createTime);
         sb.append(", updateTime=").append(updateTime);
         sb.append(", ext=").append(ext);
         sb.append(", content=").append(content);

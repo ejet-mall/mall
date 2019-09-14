@@ -5,10 +5,8 @@ import com.ejet.core.kernel.utils.DateUtil;
 import com.ejet.core.kernel.utils.HttpServletRequestUtil;
 import com.github.pagehelper.PageHelper;
 import com.macro.mall.mapper.BuCoreCommentMapper;
-import com.macro.mall.model.BuCoreCommentExample;
-import com.macro.mall.model.PmsProduct;
-import com.macro.mall.model.PmsProductExample;
-import com.macro.mall.model.UmsMember;
+import com.macro.mall.mapper.OmsOrderItemMapper;
+import com.macro.mall.model.*;
 import com.macro.mall.portal.auth.TokenHelper;
 import com.macro.mall.portal.dao.BuCoreCommentDao;
 import com.macro.mall.portal.domain.BuCoreCommentParam;
@@ -34,6 +32,9 @@ public class BuCoreCommentServiceImpl implements BuCoreCommentService {
     @Autowired
     private UmsMemberService memberService;
 
+    @Autowired
+    private OmsOrderItemMapper orderItemMapper;
+
     @Override
     public int create(BuCoreCommentParam productParam) {
         int count  = 0;
@@ -45,7 +46,16 @@ public class BuCoreCommentServiceImpl implements BuCoreCommentService {
 
         productParam.setCreateTime(new Date());
         productParam.setUpdateTime(productParam.getCreateTime());
-        productParam.setShowStatus(2); //1:展示 2：不展示'
+        productParam.setShowStatus(1); //1:展示 2：不展示'
+
+        //更改状态为已经评论
+        OmsOrderItemExample example = new OmsOrderItemExample();
+        example.createCriteria().andOrderIdEqualTo(productParam.getOrderId())
+                .andProductIdEqualTo(productParam.getProductId());
+
+        OmsOrderItem orderItem = new OmsOrderItem();
+        orderItem.setCommentStatus(1); // 已评价
+        orderItemMapper.updateByExample(orderItem, example);
 
         count = buCoreCommentMapper.insert(productParam);
         return count;

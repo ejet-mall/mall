@@ -2,6 +2,7 @@ package com.macro.mall.model;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class OmsOrderItemExample {
@@ -632,6 +633,76 @@ public class OmsOrderItemExample {
 
         public Criteria andProductSnNotBetween(String value1, String value2) {
             addCriterion("product_sn not between", value1, value2, "productSn");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductSubTitleIsNull() {
+            addCriterion("product_sub_title is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductSubTitleIsNotNull() {
+            addCriterion("product_sub_title is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductSubTitleEqualTo(String value) {
+            addCriterion("product_sub_title =", value, "productSubTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductSubTitleNotEqualTo(String value) {
+            addCriterion("product_sub_title <>", value, "productSubTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductSubTitleGreaterThan(String value) {
+            addCriterion("product_sub_title >", value, "productSubTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductSubTitleGreaterThanOrEqualTo(String value) {
+            addCriterion("product_sub_title >=", value, "productSubTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductSubTitleLessThan(String value) {
+            addCriterion("product_sub_title <", value, "productSubTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductSubTitleLessThanOrEqualTo(String value) {
+            addCriterion("product_sub_title <=", value, "productSubTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductSubTitleLike(String value) {
+            addCriterion("product_sub_title like", value, "productSubTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductSubTitleNotLike(String value) {
+            addCriterion("product_sub_title not like", value, "productSubTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductSubTitleIn(List<String> values) {
+            addCriterion("product_sub_title in", values, "productSubTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductSubTitleNotIn(List<String> values) {
+            addCriterion("product_sub_title not in", values, "productSubTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductSubTitleBetween(String value1, String value2) {
+            addCriterion("product_sub_title between", value1, value2, "productSubTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductSubTitleNotBetween(String value1, String value2) {
+            addCriterion("product_sub_title not between", value1, value2, "productSubTitle");
             return (Criteria) this;
         }
 
@@ -1652,6 +1723,126 @@ public class OmsOrderItemExample {
 
         public Criteria andProductAttrNotBetween(String value1, String value2) {
             addCriterion("product_attr not between", value1, value2, "productAttr");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentStatusIsNull() {
+            addCriterion("comment_status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentStatusIsNotNull() {
+            addCriterion("comment_status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentStatusEqualTo(Integer value) {
+            addCriterion("comment_status =", value, "commentStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentStatusNotEqualTo(Integer value) {
+            addCriterion("comment_status <>", value, "commentStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentStatusGreaterThan(Integer value) {
+            addCriterion("comment_status >", value, "commentStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentStatusGreaterThanOrEqualTo(Integer value) {
+            addCriterion("comment_status >=", value, "commentStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentStatusLessThan(Integer value) {
+            addCriterion("comment_status <", value, "commentStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentStatusLessThanOrEqualTo(Integer value) {
+            addCriterion("comment_status <=", value, "commentStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentStatusIn(List<Integer> values) {
+            addCriterion("comment_status in", values, "commentStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentStatusNotIn(List<Integer> values) {
+            addCriterion("comment_status not in", values, "commentStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentStatusBetween(Integer value1, Integer value2) {
+            addCriterion("comment_status between", value1, value2, "commentStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentStatusNotBetween(Integer value1, Integer value2) {
+            addCriterion("comment_status not between", value1, value2, "commentStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentTimeIsNull() {
+            addCriterion("comment_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentTimeIsNotNull() {
+            addCriterion("comment_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentTimeEqualTo(Date value) {
+            addCriterion("comment_time =", value, "commentTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentTimeNotEqualTo(Date value) {
+            addCriterion("comment_time <>", value, "commentTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentTimeGreaterThan(Date value) {
+            addCriterion("comment_time >", value, "commentTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("comment_time >=", value, "commentTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentTimeLessThan(Date value) {
+            addCriterion("comment_time <", value, "commentTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentTimeLessThanOrEqualTo(Date value) {
+            addCriterion("comment_time <=", value, "commentTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentTimeIn(List<Date> values) {
+            addCriterion("comment_time in", values, "commentTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentTimeNotIn(List<Date> values) {
+            addCriterion("comment_time not in", values, "commentTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentTimeBetween(Date value1, Date value2) {
+            addCriterion("comment_time between", value1, value2, "commentTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentTimeNotBetween(Date value1, Date value2) {
+            addCriterion("comment_time not between", value1, value2, "commentTime");
             return (Criteria) this;
         }
     }

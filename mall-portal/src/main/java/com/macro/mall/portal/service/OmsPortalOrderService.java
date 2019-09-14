@@ -1,5 +1,7 @@
 package com.macro.mall.portal.service;
 
+import com.github.pagehelper.PageInfo;
+import com.macro.mall.common.api.CommonPage;
 import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.dto.OmsOrderQueryParam;
 import com.macro.mall.model.OmsOrder;
@@ -67,9 +69,12 @@ public interface OmsPortalOrderService {
      */
     List<OmsOrder> list(OmsOrderQueryParam queryParam, Integer pageSize, Integer pageNum);
 
+    CommonPage<OmsOrderDetail> orderslist(OmsOrderQueryParam queryParam, Integer pageSize, Integer pageNum);
+
     /**
      * 获取指定订单详情
      */
     OmsOrderDetail detail(Long id);
+
 
 }

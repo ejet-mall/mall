@@ -4,6 +4,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 /**
  * 订单查询参数
  * Created by macro on 2018/10/11.
@@ -23,7 +25,12 @@ public class OmsOrderQueryParam {
     private Integer sourceType;
     @ApiModelProperty(value = "订单提交时间")
     private String createTime;
+    @ApiModelProperty(value = "删除状态：0->未删除；1->已删除")
+    private Integer deleteStatus;
+
 
     private Long memberId;
+
+    private List<Long> ids;
 
 }

@@ -5,13 +5,15 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="product_id" jdbcType="BIGINT" property="productId" />
     <result column="product_name" jdbcType="VARCHAR" property="productName" />
+    <result column="product_subject" jdbcType="VARCHAR" property="productSubject" />
+    <result column="product_pic" jdbcType="VARCHAR" property="productPic" />
+    <result column="product_ext" jdbcType="VARCHAR" property="productExt" />
     <result column="user_id" jdbcType="BIGINT" property="userId" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="user_nick_name" jdbcType="VARCHAR" property="userNickName" />
     <result column="user_icon" jdbcType="VARCHAR" property="userIcon" />
     <result column="user_ip" jdbcType="VARCHAR" property="userIp" />
     <result column="star" jdbcType="INTEGER" property="star" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="is_top" jdbcType="INTEGER" property="isTop" />
     <result column="is_good" jdbcType="INTEGER" property="isGood" />
     <result column="read_count" jdbcType="INTEGER" property="readCount" />
@@ -21,6 +23,7 @@
     <result column="show_status" jdbcType="INTEGER" property="showStatus" />
     <result column="product_attribute" jdbcType="VARCHAR" property="productAttribute" />
     <result column="pics" jdbcType="VARCHAR" property="pics" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="ext" jdbcType="VARCHAR" property="ext" />
   </resultMap>
@@ -86,9 +89,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, product_id, product_name, user_id, phone, user_nick_name, user_icon, user_ip, 
-    star, create_time, is_top, is_good, read_count, like_count, unlike_count, reply_count, 
-    show_status, product_attribute, pics, update_time, ext
+    id, product_id, product_name, product_subject, product_pic, product_ext, user_id, 
+    phone, user_nick_name, user_icon, user_ip, star, is_top, is_good, read_count, like_count, 
+    unlike_count, reply_count, show_status, product_attribute, pics, create_time, update_time, 
+    ext
   </sql>
   <sql id="Blob_Column_List">
     content
@@ -145,20 +149,22 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into bu_core_comment (product_id, product_name, user_id, 
+    insert into bu_core_comment (product_id, product_name, product_subject, 
+      product_pic, product_ext, user_id, 
       phone, user_nick_name, user_icon, 
-      user_ip, star, create_time, 
-      is_top, is_good, read_count, 
-      like_count, unlike_count, reply_count, 
-      show_status, product_attribute, pics, 
+      user_ip, star, is_top, 
+      is_good, read_count, like_count, 
+      unlike_count, reply_count, show_status, 
+      product_attribute, pics, create_time, 
       update_time, ext, content
       )
-    values (#{productId,jdbcType=BIGINT}, #{productName,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, 
+    values (#{productId,jdbcType=BIGINT}, #{productName,jdbcType=VARCHAR}, #{productSubject,jdbcType=VARCHAR}, 
+      #{productPic,jdbcType=VARCHAR}, #{productExt,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, 
       #{phone,jdbcType=VARCHAR}, #{userNickName,jdbcType=VARCHAR}, #{userIcon,jdbcType=VARCHAR}, 
-      #{userIp,jdbcType=VARCHAR}, #{star,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{isTop,jdbcType=INTEGER}, #{isGood,jdbcType=INTEGER}, #{readCount,jdbcType=INTEGER}, 
-      #{likeCount,jdbcType=INTEGER}, #{unlikeCount,jdbcType=INTEGER}, #{replyCount,jdbcType=INTEGER}, 
-      #{showStatus,jdbcType=INTEGER}, #{productAttribute,jdbcType=VARCHAR}, #{pics,jdbcType=VARCHAR}, 
+      #{userIp,jdbcType=VARCHAR}, #{star,jdbcType=INTEGER}, #{isTop,jdbcType=INTEGER}, 
+      #{isGood,jdbcType=INTEGER}, #{readCount,jdbcType=INTEGER}, #{likeCount,jdbcType=INTEGER}, 
+      #{unlikeCount,jdbcType=INTEGER}, #{replyCount,jdbcType=INTEGER}, #{showStatus,jdbcType=INTEGER}, 
+      #{productAttribute,jdbcType=VARCHAR}, #{pics,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{ext,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}
       )
   </insert>
@@ -173,6 +179,15 @@
       </if>
       <if test="productName != null">
         product_name,
+      </if>
+      <if test="productSubject != null">
+        product_subject,
+      </if>
+      <if test="productPic != null">
+        product_pic,
+      </if>
+      <if test="productExt != null">
+        product_ext,
       </if>
       <if test="userId != null">
         user_id,
@@ -191,9 +206,6 @@
       </if>
       <if test="star != null">
         star,
-      </if>
-      <if test="createTime != null">
-        create_time,
       </if>
       <if test="isTop != null">
         is_top,
@@ -222,6 +234,9 @@
       <if test="pics != null">
         pics,
       </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
       <if test="updateTime != null">
         update_time,
       </if>
@@ -238,6 +253,15 @@
       </if>
       <if test="productName != null">
         #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="productSubject != null">
+        #{productSubject,jdbcType=VARCHAR},
+      </if>
+      <if test="productPic != null">
+        #{productPic,jdbcType=VARCHAR},
+      </if>
+      <if test="productExt != null">
+        #{productExt,jdbcType=VARCHAR},
       </if>
       <if test="userId != null">
         #{userId,jdbcType=BIGINT},
@@ -256,9 +280,6 @@
       </if>
       <if test="star != null">
         #{star,jdbcType=INTEGER},
-      </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="isTop != null">
         #{isTop,jdbcType=INTEGER},
@@ -286,6 +307,9 @@
       </if>
       <if test="pics != null">
         #{pics,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
@@ -316,6 +340,15 @@
       <if test="record.productName != null">
         product_name = #{record.productName,jdbcType=VARCHAR},
       </if>
+      <if test="record.productSubject != null">
+        product_subject = #{record.productSubject,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productPic != null">
+        product_pic = #{record.productPic,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productExt != null">
+        product_ext = #{record.productExt,jdbcType=VARCHAR},
+      </if>
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=BIGINT},
       </if>
@@ -333,9 +366,6 @@
       </if>
       <if test="record.star != null">
         star = #{record.star,jdbcType=INTEGER},
-      </if>
-      <if test="record.createTime != null">
-        create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.isTop != null">
         is_top = #{record.isTop,jdbcType=INTEGER},
@@ -364,6 +394,9 @@
       <if test="record.pics != null">
         pics = #{record.pics,jdbcType=VARCHAR},
       </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="record.updateTime != null">
         update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       </if>
@@ -383,13 +416,15 @@
     set id = #{record.id,jdbcType=BIGINT},
       product_id = #{record.productId,jdbcType=BIGINT},
       product_name = #{record.productName,jdbcType=VARCHAR},
+      product_subject = #{record.productSubject,jdbcType=VARCHAR},
+      product_pic = #{record.productPic,jdbcType=VARCHAR},
+      product_ext = #{record.productExt,jdbcType=VARCHAR},
       user_id = #{record.userId,jdbcType=BIGINT},
       phone = #{record.phone,jdbcType=VARCHAR},
       user_nick_name = #{record.userNickName,jdbcType=VARCHAR},
       user_icon = #{record.userIcon,jdbcType=VARCHAR},
       user_ip = #{record.userIp,jdbcType=VARCHAR},
       star = #{record.star,jdbcType=INTEGER},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
       is_top = #{record.isTop,jdbcType=INTEGER},
       is_good = #{record.isGood,jdbcType=INTEGER},
       read_count = #{record.readCount,jdbcType=INTEGER},
@@ -399,6 +434,7 @@
       show_status = #{record.showStatus,jdbcType=INTEGER},
       product_attribute = #{record.productAttribute,jdbcType=VARCHAR},
       pics = #{record.pics,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       ext = #{record.ext,jdbcType=VARCHAR},
       content = #{record.content,jdbcType=LONGVARCHAR}
@@ -411,13 +447,15 @@
     set id = #{record.id,jdbcType=BIGINT},
       product_id = #{record.productId,jdbcType=BIGINT},
       product_name = #{record.productName,jdbcType=VARCHAR},
+      product_subject = #{record.productSubject,jdbcType=VARCHAR},
+      product_pic = #{record.productPic,jdbcType=VARCHAR},
+      product_ext = #{record.productExt,jdbcType=VARCHAR},
       user_id = #{record.userId,jdbcType=BIGINT},
       phone = #{record.phone,jdbcType=VARCHAR},
       user_nick_name = #{record.userNickName,jdbcType=VARCHAR},
       user_icon = #{record.userIcon,jdbcType=VARCHAR},
       user_ip = #{record.userIp,jdbcType=VARCHAR},
       star = #{record.star,jdbcType=INTEGER},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
       is_top = #{record.isTop,jdbcType=INTEGER},
       is_good = #{record.isGood,jdbcType=INTEGER},
       read_count = #{record.readCount,jdbcType=INTEGER},
@@ -427,6 +465,7 @@
       show_status = #{record.showStatus,jdbcType=INTEGER},
       product_attribute = #{record.productAttribute,jdbcType=VARCHAR},
       pics = #{record.pics,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       ext = #{record.ext,jdbcType=VARCHAR}
     <if test="_parameter != null">
@@ -441,6 +480,15 @@
       </if>
       <if test="productName != null">
         product_name = #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="productSubject != null">
+        product_subject = #{productSubject,jdbcType=VARCHAR},
+      </if>
+      <if test="productPic != null">
+        product_pic = #{productPic,jdbcType=VARCHAR},
+      </if>
+      <if test="productExt != null">
+        product_ext = #{productExt,jdbcType=VARCHAR},
       </if>
       <if test="userId != null">
         user_id = #{userId,jdbcType=BIGINT},
@@ -459,9 +507,6 @@
       </if>
       <if test="star != null">
         star = #{star,jdbcType=INTEGER},
-      </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="isTop != null">
         is_top = #{isTop,jdbcType=INTEGER},
@@ -490,6 +535,9 @@
       <if test="pics != null">
         pics = #{pics,jdbcType=VARCHAR},
       </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="updateTime != null">
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
@@ -506,13 +554,15 @@
     update bu_core_comment
     set product_id = #{productId,jdbcType=BIGINT},
       product_name = #{productName,jdbcType=VARCHAR},
+      product_subject = #{productSubject,jdbcType=VARCHAR},
+      product_pic = #{productPic,jdbcType=VARCHAR},
+      product_ext = #{productExt,jdbcType=VARCHAR},
       user_id = #{userId,jdbcType=BIGINT},
       phone = #{phone,jdbcType=VARCHAR},
       user_nick_name = #{userNickName,jdbcType=VARCHAR},
       user_icon = #{userIcon,jdbcType=VARCHAR},
       user_ip = #{userIp,jdbcType=VARCHAR},
       star = #{star,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
       is_top = #{isTop,jdbcType=INTEGER},
       is_good = #{isGood,jdbcType=INTEGER},
       read_count = #{readCount,jdbcType=INTEGER},
@@ -522,6 +572,7 @@
       show_status = #{showStatus,jdbcType=INTEGER},
       product_attribute = #{productAttribute,jdbcType=VARCHAR},
       pics = #{pics,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       ext = #{ext,jdbcType=VARCHAR},
       content = #{content,jdbcType=LONGVARCHAR}
@@ -531,13 +582,15 @@
     update bu_core_comment
     set product_id = #{productId,jdbcType=BIGINT},
       product_name = #{productName,jdbcType=VARCHAR},
+      product_subject = #{productSubject,jdbcType=VARCHAR},
+      product_pic = #{productPic,jdbcType=VARCHAR},
+      product_ext = #{productExt,jdbcType=VARCHAR},
       user_id = #{userId,jdbcType=BIGINT},
       phone = #{phone,jdbcType=VARCHAR},
       user_nick_name = #{userNickName,jdbcType=VARCHAR},
       user_icon = #{userIcon,jdbcType=VARCHAR},
       user_ip = #{userIp,jdbcType=VARCHAR},
       star = #{star,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
       is_top = #{isTop,jdbcType=INTEGER},
       is_good = #{isGood,jdbcType=INTEGER},
       read_count = #{readCount,jdbcType=INTEGER},
@@ -547,6 +600,7 @@
       show_status = #{showStatus,jdbcType=INTEGER},
       product_attribute = #{productAttribute,jdbcType=VARCHAR},
       pics = #{pics,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       ext = #{ext,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}

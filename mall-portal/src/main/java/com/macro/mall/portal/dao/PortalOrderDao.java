@@ -40,11 +40,14 @@ public interface PortalOrderDao {
     int releaseSkuStockLock(@Param("itemList") List<OmsOrderItem> orderItemList);
 
 
-
     /**
      * 条件查询订单
      */
     List<OmsOrder> getList(@Param("queryParam") OmsOrderQueryParam queryParam);
+    /**
+     * 条件查询订单
+     */
+    List<OmsOrderDetail> getListDetail(@Param("queryParam") OmsOrderQueryParam queryParam);
 
 
 

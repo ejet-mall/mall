@@ -1,6 +1,7 @@
 package com.macro.mall.portal.service;
 
 import com.macro.mall.dto.SmsCouponParam;
+import com.macro.mall.dto.SmsCouponResult;
 import com.macro.mall.model.SmsCoupon;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,4 +22,11 @@ public interface SmsCouponService {
      * @param id 优惠券表id
      */
     SmsCouponParam getItem(Long id);
+
+    /**
+     * 获取优惠券列表
+     * @param useStatus 优惠券的使用状态
+     */
+    List<SmsCouponResult> listCoupon(Integer useStatus);
+
 }

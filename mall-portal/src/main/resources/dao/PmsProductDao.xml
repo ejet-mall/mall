@@ -41,11 +41,17 @@
         LEFT JOIN pms_product_attribute z ON z.id=a.product_attribute_id
         WHERE p.id=#{id};
     </select>
-    <select id="selectSubjectProductRelationByProductId" resultMap="com.macro.mall.mapper.CmsSubjectProductRelationMapper.BaseResultMap">
-        select * from cms_subject_product_relation where product_id=#{productId}
-    </select>
-    <select id="selectPrefrenceAreaProductRelationByProductId" resultMap="com.macro.mall.mapper.CmsPrefrenceAreaProductRelationMapper.BaseResultMap">
-        select * from cms_prefrence_area_product_relation where product_id=#{productId}
-    </select>
+
+
+    <!--<select id="selectSubjectProductListBySubjectId" resultMap="com.macro.mall.mapper.CmsSubjectProductRelationMapper.BaseResultMap">-->
+        <!--select * from cms_subject_product_relation where product_id=#{productId}-->
+
+    <!--</select>-->
+
+
+
+    <!--<select id="selectPrefrenceAreaProductRelationByProductId" resultMap="com.macro.mall.mapper.CmsPrefrenceAreaProductRelationMapper.BaseResultMap">-->
+        <!--select * from cms_prefrence_area_product_relation where product_id=#{productId}-->
+    <!--</select>-->
 
 </mapper>
