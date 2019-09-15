@@ -21,11 +21,11 @@ spring:
         login-username: admin
         login-password: admin
 
-  data:
-    mongodb:
-      host: 47.94.103.27
-      port: 23017
-      database: mall_portal
+#  data:
+#    mongodb:
+#      host: 47.94.103.27
+#      port: 23017
+#      database: mall_portal
 
   redis:
     host: localhost # Redis服务器地址

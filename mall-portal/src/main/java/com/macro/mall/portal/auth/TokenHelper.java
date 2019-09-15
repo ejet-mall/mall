@@ -9,7 +9,6 @@ import com.macro.mall.portal.util.CookieUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -21,7 +20,6 @@ import static com.macro.mall.portal.constant.PortalConstant.ACCESS_TOKEN_KEY;
 
 
 /**
- * Copyright (C), 2016-2018, 武汉康华数海有限公司
  * FileName: TokenHelper
  * Author:   Ejet
  * Description: token信息

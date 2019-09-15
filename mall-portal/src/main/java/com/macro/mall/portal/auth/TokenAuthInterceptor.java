@@ -1,5 +1,6 @@
 package com.macro.mall.portal.auth;
 
+import com.ejet.core.kernel.api.IResultCode;
 import com.ejet.core.kernel.api.ResultCode;
 import com.ejet.core.kernel.exception.CoBusinessException;
 import com.ejet.core.kernel.utils.HttpServletResponseUtil;
@@ -83,7 +84,7 @@ public class TokenAuthInterceptor implements HandlerInterceptor {
 			redis.refresh(authToken, PortalConstant.TOKEN_KEY_TIMEOUT);
 
 		} catch (CoBusinessException e) {
-			HttpServletResponseUtil.responseJson(response, new CoBusinessException(ResultCode.SYS_ERROR, e));
+			HttpServletResponseUtil.responseJson(response, new CoBusinessException(ResultCode.INTERNAL_SERVER_ERROR, e));
 			return false;
 		}
 		return true;

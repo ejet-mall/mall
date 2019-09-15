@@ -55,7 +55,7 @@ public class BuCoreCommentServiceImpl implements BuCoreCommentService {
 
         OmsOrderItem orderItem = new OmsOrderItem();
         orderItem.setCommentStatus(1); // 已评价
-        orderItemMapper.updateByExample(orderItem, example);
+        orderItemMapper.updateByExampleSelective(orderItem, example);
 
         count = buCoreCommentMapper.insert(productParam);
         return count;

@@ -59,13 +59,13 @@ public class UmsMemberReceiveAddressServiceImpl implements UmsMemberReceiveAddre
         updateExample.createCriteria().andMemberIdEqualTo(currentMember.getId());
         UmsMemberReceiveAddress updateNotDefault  = new UmsMemberReceiveAddress();
         updateNotDefault.setDefaultStatus(0);
-        addressMapper.updateByExampleSelective(address,updateExample);
+        addressMapper.updateByExampleSelective(updateNotDefault,updateExample);
 
         UmsMemberReceiveAddressExample updateDefaultExample = new UmsMemberReceiveAddressExample();
         updateDefaultExample.createCriteria().andMemberIdEqualTo(currentMember.getId()).andIdEqualTo(id);
         UmsMemberReceiveAddress updateDefault  = new UmsMemberReceiveAddress();
         updateDefault.setDefaultStatus(1);//1:默认
-        return addressMapper.updateByExampleSelective(address,updateExample);
+        return addressMapper.updateByExampleSelective(updateDefault,updateDefaultExample);
     }
 
     @Override

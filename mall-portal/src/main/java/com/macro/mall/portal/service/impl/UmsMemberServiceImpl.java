@@ -257,10 +257,10 @@ public class UmsMemberServiceImpl implements UmsMemberService {
         //密码需要客户端加密后传递
         try {
             if(StringUtil.isBlank(phone)) {
-                throw new CoBusinessException(ResultCode.PARAM_MISSING); // "用户名为空!"
+                throw new CoBusinessException(ResultCode.PARAM_VALID_ERROR); // "用户名为空!"
             }
             if(StringUtil.isBlank(password)) {
-                throw new CoBusinessException(ResultCode.PARAM_MISSING); // "密码为空!"
+                throw new CoBusinessException(ResultCode.PARAM_VALID_ERROR); // "密码为空!"
             }
             UmsMember userMember = getByPhone(phone);
             if(userMember==null){
