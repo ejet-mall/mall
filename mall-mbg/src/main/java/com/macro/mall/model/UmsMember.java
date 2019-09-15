@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
-* Created by Mybatis Generator 2019/09/14
+* Created by Mybatis Generator 2019/09/15
 */
 @Data
 @Getter
@@ -45,8 +45,17 @@ public class UmsMember implements Serializable {
     @ApiModelProperty(value = "生日")
     private Date birthday;
 
-    @ApiModelProperty(value = "所做城市")
+    @ApiModelProperty(value = "省份/直辖市")
+    private String province;
+
+    @ApiModelProperty(value = "城市")
     private String city;
+
+    @ApiModelProperty(value = "区")
+    private String region;
+
+    @ApiModelProperty(value = "详细地址(街道)")
+    private String detailAddress;
 
     @ApiModelProperty(value = "职业")
     private String job;
@@ -88,7 +97,10 @@ public class UmsMember implements Serializable {
         sb.append(", icon=").append(icon);
         sb.append(", gender=").append(gender);
         sb.append(", birthday=").append(birthday);
+        sb.append(", province=").append(province);
         sb.append(", city=").append(city);
+        sb.append(", region=").append(region);
+        sb.append(", detailAddress=").append(detailAddress);
         sb.append(", job=").append(job);
         sb.append(", personalizedSignature=").append(personalizedSignature);
         sb.append(", sourceType=").append(sourceType);

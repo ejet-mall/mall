@@ -31,8 +31,17 @@ public class MemberParam implements Serializable {
     @ApiModelProperty(value = "生日")
     private Date birthday;
 
-    @ApiModelProperty(value = "所做城市")
+    @ApiModelProperty(value = "省份/直辖市")
+    private String province;
+
+    @ApiModelProperty(value = "城市")
     private String city;
+
+    @ApiModelProperty(value = "区")
+    private String region;
+
+    @ApiModelProperty(value = "详细地址(街道)")
+    private String detailAddress;
 
     @ApiModelProperty(value = "职业")
     private String job;

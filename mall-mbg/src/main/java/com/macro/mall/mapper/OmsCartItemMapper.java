@@ -6,7 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 /**
-* Created by Mybatis Generator 2019/09/14
+* Created by Mybatis Generator 2019/09/15
 */
 public interface OmsCartItemMapper {
     long countByExample(OmsCartItemExample example);

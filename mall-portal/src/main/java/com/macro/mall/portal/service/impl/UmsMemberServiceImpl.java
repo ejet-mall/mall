@@ -172,7 +172,10 @@ public class UmsMemberServiceImpl implements UmsMemberService {
         umsMember.setBirthday(memberParam.getBirthday());
         umsMember.setGender(memberParam.getGender());
         umsMember.setPersonalizedSignature(memberParam.getPersonalizedSignature());
+        umsMember.setProvince(memberParam.getProvince());
         umsMember.setCity(memberParam.getCity());
+        umsMember.setRegion(memberParam.getRegion());
+        umsMember.setDetailAddress(memberParam.getDetailAddress());
         umsMember.setIcon(memberParam.getIcon());
         umsMember.setJob(memberParam.getJob());
 

@@ -842,6 +842,76 @@ public class UmsMemberExample {
             return (Criteria) this;
         }
 
+        public Criteria andProvinceIsNull() {
+            addCriterion("province is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProvinceIsNotNull() {
+            addCriterion("province is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProvinceEqualTo(String value) {
+            addCriterion("province =", value, "province");
+            return (Criteria) this;
+        }
+
+        public Criteria andProvinceNotEqualTo(String value) {
+            addCriterion("province <>", value, "province");
+            return (Criteria) this;
+        }
+
+        public Criteria andProvinceGreaterThan(String value) {
+            addCriterion("province >", value, "province");
+            return (Criteria) this;
+        }
+
+        public Criteria andProvinceGreaterThanOrEqualTo(String value) {
+            addCriterion("province >=", value, "province");
+            return (Criteria) this;
+        }
+
+        public Criteria andProvinceLessThan(String value) {
+            addCriterion("province <", value, "province");
+            return (Criteria) this;
+        }
+
+        public Criteria andProvinceLessThanOrEqualTo(String value) {
+            addCriterion("province <=", value, "province");
+            return (Criteria) this;
+        }
+
+        public Criteria andProvinceLike(String value) {
+            addCriterion("province like", value, "province");
+            return (Criteria) this;
+        }
+
+        public Criteria andProvinceNotLike(String value) {
+            addCriterion("province not like", value, "province");
+            return (Criteria) this;
+        }
+
+        public Criteria andProvinceIn(List<String> values) {
+            addCriterion("province in", values, "province");
+            return (Criteria) this;
+        }
+
+        public Criteria andProvinceNotIn(List<String> values) {
+            addCriterion("province not in", values, "province");
+            return (Criteria) this;
+        }
+
+        public Criteria andProvinceBetween(String value1, String value2) {
+            addCriterion("province between", value1, value2, "province");
+            return (Criteria) this;
+        }
+
+        public Criteria andProvinceNotBetween(String value1, String value2) {
+            addCriterion("province not between", value1, value2, "province");
+            return (Criteria) this;
+        }
+
         public Criteria andCityIsNull() {
             addCriterion("city is null");
             return (Criteria) this;
@@ -909,6 +979,146 @@ public class UmsMemberExample {
 
         public Criteria andCityNotBetween(String value1, String value2) {
             addCriterion("city not between", value1, value2, "city");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionIsNull() {
+            addCriterion("region is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionIsNotNull() {
+            addCriterion("region is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionEqualTo(String value) {
+            addCriterion("region =", value, "region");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionNotEqualTo(String value) {
+            addCriterion("region <>", value, "region");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionGreaterThan(String value) {
+            addCriterion("region >", value, "region");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionGreaterThanOrEqualTo(String value) {
+            addCriterion("region >=", value, "region");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionLessThan(String value) {
+            addCriterion("region <", value, "region");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionLessThanOrEqualTo(String value) {
+            addCriterion("region <=", value, "region");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionLike(String value) {
+            addCriterion("region like", value, "region");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionNotLike(String value) {
+            addCriterion("region not like", value, "region");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionIn(List<String> values) {
+            addCriterion("region in", values, "region");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionNotIn(List<String> values) {
+            addCriterion("region not in", values, "region");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionBetween(String value1, String value2) {
+            addCriterion("region between", value1, value2, "region");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegionNotBetween(String value1, String value2) {
+            addCriterion("region not between", value1, value2, "region");
+            return (Criteria) this;
+        }
+
+        public Criteria andDetailAddressIsNull() {
+            addCriterion("detail_address is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDetailAddressIsNotNull() {
+            addCriterion("detail_address is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDetailAddressEqualTo(String value) {
+            addCriterion("detail_address =", value, "detailAddress");
+            return (Criteria) this;
+        }
+
+        public Criteria andDetailAddressNotEqualTo(String value) {
+            addCriterion("detail_address <>", value, "detailAddress");
+            return (Criteria) this;
+        }
+
+        public Criteria andDetailAddressGreaterThan(String value) {
+            addCriterion("detail_address >", value, "detailAddress");
+            return (Criteria) this;
+        }
+
+        public Criteria andDetailAddressGreaterThanOrEqualTo(String value) {
+            addCriterion("detail_address >=", value, "detailAddress");
+            return (Criteria) this;
+        }
+
+        public Criteria andDetailAddressLessThan(String value) {
+            addCriterion("detail_address <", value, "detailAddress");
+            return (Criteria) this;
+        }
+
+        public Criteria andDetailAddressLessThanOrEqualTo(String value) {
+            addCriterion("detail_address <=", value, "detailAddress");
+            return (Criteria) this;
+        }
+
+        public Criteria andDetailAddressLike(String value) {
+            addCriterion("detail_address like", value, "detailAddress");
+            return (Criteria) this;
+        }
+
+        public Criteria andDetailAddressNotLike(String value) {
+            addCriterion("detail_address not like", value, "detailAddress");
+            return (Criteria) this;
+        }
+
+        public Criteria andDetailAddressIn(List<String> values) {
+            addCriterion("detail_address in", values, "detailAddress");
+            return (Criteria) this;
+        }
+
+        public Criteria andDetailAddressNotIn(List<String> values) {
+            addCriterion("detail_address not in", values, "detailAddress");
+            return (Criteria) this;
+        }
+
+        public Criteria andDetailAddressBetween(String value1, String value2) {
+            addCriterion("detail_address between", value1, value2, "detailAddress");
+            return (Criteria) this;
+        }
+
+        public Criteria andDetailAddressNotBetween(String value1, String value2) {
+            addCriterion("detail_address not between", value1, value2, "detailAddress");
             return (Criteria) this;
         }
 

@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
-* Created by Mybatis Generator 2019/09/14
+* Created by Mybatis Generator 2019/09/15
 */
 @Data
 @Getter
@@ -22,7 +22,7 @@ public class UmsMemberReceiveAddress implements Serializable {
 
     private String phoneNumber;
 
-    @ApiModelProperty(value = "是否为默认")
+    @ApiModelProperty(value = "是否为默认 1: 默认 0：非默认")
     private Integer defaultStatus;
 
     @ApiModelProperty(value = "邮政编码")
