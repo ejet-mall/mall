@@ -64,7 +64,7 @@ public interface UmsMemberService {
     /**
      * 生成并发送验证码
      */
-    String sendAuthCode(String telephone);
+    String sendAuthCode(String telephone, Integer type);
     /**
      * 登录功能
      * @param username 用户名

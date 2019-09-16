@@ -4,6 +4,8 @@ import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.portal.domain.MemberParam;
 import com.macro.mall.portal.service.UmsMemberService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,9 +37,14 @@ public class UmsMemberController {
 
     @ApiOperation("发送验证码")
     @RequestMapping(value = "/getAuthCode", method = RequestMethod.GET)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "telephone", value = "电话号码", dataType = "String"),
+            @ApiImplicitParam(name = "type", value = "短信类型：1：注册短信 2：密码重置", dataType = "Integer")
+    }
+    )
     @ResponseBody
-    public CommonResult getAuthCode(@RequestParam String telephone) {
-        String code = memberService.sendAuthCode(telephone);
+    public CommonResult getAuthCode(@RequestParam String telephone, @RequestParam Integer type) {
+        String code = memberService.sendAuthCode(telephone, type);
         if(code==null) {
             return CommonResult.failed("发送验证码失败!");
         }

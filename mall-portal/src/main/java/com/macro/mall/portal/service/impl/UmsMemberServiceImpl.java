@@ -18,6 +18,7 @@ import com.macro.mall.portal.constant.PortalConstant;
 import com.macro.mall.portal.domain.MemberDetails;
 import com.macro.mall.portal.domain.MemberParam;
 import com.macro.mall.portal.service.RedisService;
+import com.macro.mall.portal.service.SysParamService;
 import com.macro.mall.portal.service.UmsMemberService;
 import com.macro.mall.portal.util.JwtTokenUtil;
 import com.macro.mall.portal.util.SmsUtil;
@@ -60,6 +61,9 @@ public class UmsMemberServiceImpl implements UmsMemberService {
 
     @Autowired
     private UmsMemberLoginLogMapper loginLogMapper;
+
+    @Autowired
+    private SysParamService sysParamService;
 
     @Override
     public UmsMember getByUsername(String username) {
@@ -218,16 +222,34 @@ public class UmsMemberServiceImpl implements UmsMemberService {
         return authCode.equals(realAuthCode);
     }
 
+
+    public String getSmsRedisKey(String telephone, Integer type) {
+        String key = REDIS_KEY_PREFIX_AUTH_CODE + telephone;
+        if(PortalConstant.SMS_register==type) {
+            key+=PortalConstant.SMS_register;
+        } else if(PortalConstant.SMS_updatePassword==type) {
+            key+=PortalConstant.SMS_updatePassword;
+        }
+        return key;
+    }
+
     /**
      * 生成并发送验证码
      */
-    public String sendAuthCode(String telephone) {
+    public String sendAuthCode(String telephone, Integer type) {
         String code = RandomUtil.getRandomNumbers(6);
-        boolean sendOK = SmsUtil.sendRegister(telephone, code);
+        boolean sendOK = true;
+        if(PortalConstant.SMS_register==type && sysParamService.sendSmsOnRegister()) {
+            sendOK = SmsUtil.sendRegister(telephone, code);
+        }
+        if(PortalConstant.SMS_updatePassword==type && sysParamService.sendSmsOnUpdatePassword()) {
+            sendOK = SmsUtil.sendRegister(telephone, code);
+        }
         if(sendOK) {//发送成功
             // 验证码绑定手机号并存储到redis
-            redisService.set(REDIS_KEY_PREFIX_AUTH_CODE + telephone, code);
-            redisService.expire(REDIS_KEY_PREFIX_AUTH_CODE + telephone, AUTH_CODE_EXPIRE_SECONDS);
+            String key = getSmsRedisKey(telephone, type);
+            redisService.set(key, code);
+            redisService.expire(key, AUTH_CODE_EXPIRE_SECONDS);
             return code;
         }
         return null;
