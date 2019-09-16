@@ -7,6 +7,7 @@
     <result column="param_key" jdbcType="VARCHAR" property="paramKey" />
     <result column="param_type" jdbcType="VARCHAR" property="paramType" />
     <result column="param_value" jdbcType="VARCHAR" property="paramValue" />
+    <result column="ext" jdbcType="VARCHAR" property="ext" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="create_user" jdbcType="INTEGER" property="createUser" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -74,7 +75,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, param_name, param_key, param_type, param_value, remark, create_user, create_time, 
+    id, param_name, param_key, param_type, param_value, ext, remark, create_user, create_time, 
     update_user, update_time, status, is_deleted
   </sql>
   <select id="selectByExample" parameterType="com.macro.mall.model.SysParamExample" resultMap="BaseResultMap">
@@ -112,13 +113,15 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into sys_param (param_name, param_key, param_type, 
-      param_value, remark, create_user, 
-      create_time, update_user, update_time, 
-      status, is_deleted)
+      param_value, ext, remark, 
+      create_user, create_time, update_user, 
+      update_time, status, is_deleted
+      )
     values (#{paramName,jdbcType=VARCHAR}, #{paramKey,jdbcType=VARCHAR}, #{paramType,jdbcType=VARCHAR}, 
-      #{paramValue,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{createUser,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{status,jdbcType=INTEGER}, #{isDeleted,jdbcType=INTEGER})
+      #{paramValue,jdbcType=VARCHAR}, #{ext,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{createUser,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=INTEGER}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{isDeleted,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.macro.mall.model.SysParam">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -137,6 +140,9 @@
       </if>
       <if test="paramValue != null">
         param_value,
+      </if>
+      <if test="ext != null">
+        ext,
       </if>
       <if test="remark != null">
         remark,
@@ -172,6 +178,9 @@
       </if>
       <if test="paramValue != null">
         #{paramValue,jdbcType=VARCHAR},
+      </if>
+      <if test="ext != null">
+        #{ext,jdbcType=VARCHAR},
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
@@ -220,6 +229,9 @@
       <if test="record.paramValue != null">
         param_value = #{record.paramValue,jdbcType=VARCHAR},
       </if>
+      <if test="record.ext != null">
+        ext = #{record.ext,jdbcType=VARCHAR},
+      </if>
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
@@ -253,6 +265,7 @@
       param_key = #{record.paramKey,jdbcType=VARCHAR},
       param_type = #{record.paramType,jdbcType=VARCHAR},
       param_value = #{record.paramValue,jdbcType=VARCHAR},
+      ext = #{record.ext,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR},
       create_user = #{record.createUser,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -278,6 +291,9 @@
       </if>
       <if test="paramValue != null">
         param_value = #{paramValue,jdbcType=VARCHAR},
+      </if>
+      <if test="ext != null">
+        ext = #{ext,jdbcType=VARCHAR},
       </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
@@ -309,6 +325,7 @@
       param_key = #{paramKey,jdbcType=VARCHAR},
       param_type = #{paramType,jdbcType=VARCHAR},
       param_value = #{paramValue,jdbcType=VARCHAR},
+      ext = #{ext,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
       create_user = #{createUser,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},

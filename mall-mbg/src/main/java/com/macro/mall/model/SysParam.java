@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
-* Created by Mybatis Generator 2019/09/15
+* Created by Mybatis Generator 2019/09/16
 */
 @Data
 @Getter
@@ -28,6 +28,9 @@ public class SysParam implements Serializable {
 
     @ApiModelProperty(value = "参数值")
     private String paramValue;
+
+    @ApiModelProperty(value = "扩展字段")
+    private String ext;
 
     @ApiModelProperty(value = "备注")
     private String remark;
@@ -63,6 +66,7 @@ public class SysParam implements Serializable {
         sb.append(", paramKey=").append(paramKey);
         sb.append(", paramType=").append(paramType);
         sb.append(", paramValue=").append(paramValue);
+        sb.append(", ext=").append(ext);
         sb.append(", remark=").append(remark);
         sb.append(", createUser=").append(createUser);
         sb.append(", createTime=").append(createTime);

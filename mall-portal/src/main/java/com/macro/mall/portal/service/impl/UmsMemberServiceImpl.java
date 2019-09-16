@@ -20,6 +20,7 @@ import com.macro.mall.portal.domain.MemberParam;
 import com.macro.mall.portal.service.RedisService;
 import com.macro.mall.portal.service.UmsMemberService;
 import com.macro.mall.portal.util.JwtTokenUtil;
+import com.macro.mall.portal.util.SmsUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -161,10 +162,10 @@ public class UmsMemberServiceImpl implements UmsMemberService {
         if(CollectionUtils.isEmpty(memberList)){
             return CommonResult.failed("该账号不存在");
         }
-        //验证验证码
-        if(!verifyAuthCode(authCode, currentMember.getPhone())){
-            return CommonResult.failed("验证码错误");
-        }
+//        //验证验证码
+//        if(!verifyAuthCode(authCode, currentMember.getPhone())){
+//            return CommonResult.failed("验证码错误");
+//        }
         UmsMember umsMember = memberList.get(0);
         umsMember.setPassword(MD5Coder.getMD5(memberParam.getPassword()));
         umsMember.setUsername(memberParam.getUsername());
@@ -222,22 +223,14 @@ public class UmsMemberServiceImpl implements UmsMemberService {
      */
     public String sendAuthCode(String telephone) {
         String code = RandomUtil.getRandomNumbers(6);
-
-        SmsRequest req = new SmsRequest();
-        req.setPhone(telephone);
-        //req.setSignName("");
-        SmsResponse codeResult = SmsFactory.sendSms(req);
-        if("OK".equalsIgnoreCase(codeResult.getCode())) {
-            // 验证码绑定手机号并存储到redis
-            redisService.set(REDIS_KEY_PREFIX_AUTH_CODE + telephone, code);
-            redisService.expire(REDIS_KEY_PREFIX_AUTH_CODE + telephone, AUTH_CODE_EXPIRE_SECONDS);
-        } else {
+        boolean sendOK = SmsUtil.sendRegister(telephone, code);
+        if(sendOK) {//发送成功
             // 验证码绑定手机号并存储到redis
             redisService.set(REDIS_KEY_PREFIX_AUTH_CODE + telephone, code);
             redisService.expire(REDIS_KEY_PREFIX_AUTH_CODE + telephone, AUTH_CODE_EXPIRE_SECONDS);
             return code;
         }
-        return code;
+        return null;
     }
 
     /**

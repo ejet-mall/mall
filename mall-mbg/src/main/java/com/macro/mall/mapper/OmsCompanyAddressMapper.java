@@ -6,7 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 /**
-* Created by Mybatis Generator 2019/09/15
+* Created by Mybatis Generator 2019/09/16
 */
 public interface OmsCompanyAddressMapper {
     long countByExample(OmsCompanyAddressExample example);

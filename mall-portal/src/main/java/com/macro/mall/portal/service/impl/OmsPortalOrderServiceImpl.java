@@ -15,6 +15,7 @@ import com.macro.mall.portal.dao.PortalOrderItemDao;
 import com.macro.mall.portal.dao.SmsCouponHistoryDao;
 import com.macro.mall.portal.domain.*;
 import com.macro.mall.portal.service.*;
+import com.macro.mall.portal.util.SmsUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -66,6 +67,9 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
     private OmsOrderItemMapper orderItemMapper;
     @Autowired
     private CancelOrderSender cancelOrderSender;
+
+    @Autowired
+    private SysParamService sysParamService;
 
     @Override
     public ConfirmOrderResult generateConfirmOrder() {
@@ -384,6 +388,12 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
         Map<String, Object> result = new HashMap<>();
         result.put("order", order);
         result.put("orderItemList", orderItemList);
+
+        //发送短信通知
+        SysParam sysParam = sysParamService.getOnOrdered();
+
+        SmsUtil.sendOrder(sysParam, order.getPayAmount()+"", order.getOrderSn());
+
         return CommonResult.success(result, "下单成功");
     }
 

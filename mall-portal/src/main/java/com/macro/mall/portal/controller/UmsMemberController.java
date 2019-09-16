@@ -33,13 +33,13 @@ public class UmsMemberController {
         return memberService.register(username, password, telephone, authCode);
     }
 
-    @ApiOperation("获取验证码")
+    @ApiOperation("发送验证码")
     @RequestMapping(value = "/getAuthCode", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult getAuthCode(@RequestParam String telephone) {
         String code = memberService.sendAuthCode(telephone);
         if(code==null) {
-            return CommonResult.failed("获取验证码失败!");
+            return CommonResult.failed("发送验证码失败!");
         }
         return CommonResult.success(code, "发送成功!");
     }
@@ -56,9 +56,8 @@ public class UmsMemberController {
     @ApiOperation("修改用户信息")
     @RequestMapping(value = "/updateUser", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult updateUser(@RequestBody MemberParam memberParam,
-                                       @RequestParam String authCode) {
-        return memberService.updateUser(memberParam,authCode);
+    public CommonResult updateUser(@RequestBody MemberParam memberParam) {
+        return memberService.updateUser(memberParam, null);
     }
 
     @ApiOperation("登录")
