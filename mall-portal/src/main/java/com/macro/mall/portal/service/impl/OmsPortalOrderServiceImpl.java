@@ -392,7 +392,7 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
         //发送短信通知
         SysParam sysParam = sysParamService.getOnOrdered();
 
-        SmsUtil.sendOrder(sysParam, order.getPayAmount()+"", order.getOrderSn());
+        SmsUtil.sendOrder(sysParam, order.getPayAmount()+"", order.getOrderSn(), order.getReceiverPhone()+order.getReceiverName());
 
         return CommonResult.success(result, "下单成功");
     }

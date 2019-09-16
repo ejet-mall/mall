@@ -38,7 +38,7 @@ public class SmsUtil {
         return response!=null && "OK".equalsIgnoreCase(response.getCode());
     }
 
-    public static boolean sendOrder(SysParam sysParam, String fee, String orderId) {
+    public static boolean sendOrder(SysParam sysParam, String fee, String orderId, String orderUser) {
         if(sysParam==null) return false;
         try {
             boolean isSend = "true".equalsIgnoreCase(sysParam.getParamValue());
@@ -49,10 +49,11 @@ public class SmsUtil {
             Map<String,String> param = new HashMap<>();
             param.put("fee", fee);
             param.put("orderId", orderId);
+            param.put("orderUser", orderUser);
             SmsRequest req = new SmsRequest();
             req.setPhone(phone);
             req.setSignName("北京艾科怀曼生物");
-            req.setTemplateCode("SMS_172881750"); //短信通知模板
+            req.setTemplateCode("SMS_174028711"); //短信通知模板
             req.setTemplateParam(param);
             SmsResponse response = SmsFactory.sendSms(req);
             return response!=null && "OK".equalsIgnoreCase(response.getCode());
