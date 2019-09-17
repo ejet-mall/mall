@@ -95,7 +95,7 @@ public class UmsMemberServiceImpl implements UmsMemberService {
     @Override
     public CommonResult register(String username, String password, String telephone, String authCode) {
         //验证验证码
-        if(!verifyAuthCode(authCode,telephone)){
+        if(!verifyAuthCode(authCode,telephone,PortalConstant.SMS_register)){
             return CommonResult.failed("验证码错误");
         }
         //查询是否已有该用户
@@ -110,7 +110,7 @@ public class UmsMemberServiceImpl implements UmsMemberService {
         UmsMember umsMember = new UmsMember();
         umsMember.setUsername(username);
         umsMember.setPhone(telephone);
-        //umsMember.setPassword(passwordEncoder.encode(password));
+        umsMember.setPassword(MD5Coder.getMD5(password));
         umsMember.setCreateTime(new Date());
         umsMember.setStatus(1);
         //获取默认会员等级并设置
@@ -147,7 +147,7 @@ public class UmsMemberServiceImpl implements UmsMemberService {
             return CommonResult.failed("该账号不存在");
         }
         //验证验证码
-        if(!verifyAuthCode(authCode,telephone)){
+        if(!verifyAuthCode(authCode,telephone, PortalConstant.SMS_updatePassword)){
             return CommonResult.failed("验证码错误");
         }
         UmsMember umsMember = memberList.get(0);
@@ -214,11 +214,12 @@ public class UmsMemberServiceImpl implements UmsMemberService {
     }
 
     //对输入的验证码进行校验
-    private boolean verifyAuthCode(String authCode, String telephone){
+    private boolean verifyAuthCode(String authCode, String telephone, Integer type){
         if(StringUtils.isEmpty(authCode)){
             return false;
         }
-        String realAuthCode = redisService.get(REDIS_KEY_PREFIX_AUTH_CODE + telephone);
+        String key = getSmsRedisKey(telephone, type);
+        String realAuthCode = redisService.get(key);
         return authCode.equals(realAuthCode);
     }
 
