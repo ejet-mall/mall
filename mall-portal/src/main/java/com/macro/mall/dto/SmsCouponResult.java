@@ -32,4 +32,5 @@ public class SmsCouponResult extends SmsCoupon {
     @ApiModelProperty(value = "使用时间")
     private Date useTime;
 
+
 }
