@@ -169,15 +169,6 @@ public class PmsProductCategoryServiceImpl implements PmsProductCategoryService 
     }
 
 
-    public List<PmsProductCategory> getListTree(Long parentId, Integer pageSize, Integer pageNum) {
-        PageHelper.startPage(pageNum, pageSize);
-        PmsProductCategoryExample example = new PmsProductCategoryExample();
-        example.setOrderByClause("sort desc");
-        example.createCriteria().andParentIdEqualTo(parentId);
-        return productCategoryMapper.selectByExample(example);
-    }
-
-
     public static PmsProductCategoryWithChildrenTree toTree(List<PmsProductCategoryWithChildrenTree> all, PmsProductCategoryWithChildrenTree rootNode) {
         boolean allAppend = false;
         for(PmsProductCategoryWithChildrenTree item : all) {

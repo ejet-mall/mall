@@ -70,16 +70,16 @@ public class PmsProductCategoryController {
         return CommonResult.success(CommonPage.restPage(productCategoryList));
     }
 
-    @ApiOperation("分页查询商品分类")
-    @RequestMapping(value = "/list/tree/{parentId}", method = RequestMethod.GET)
-    @ResponseBody
-    @PreAuthorize("hasAuthority('pms:productCategory:read')")
-    public CommonResult<CommonPage<PmsProductCategory>> getListTree(@PathVariable Long parentId,
-                                                                @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
-                                                                @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
-        List<PmsProductCategory> productCategoryList = productCategoryService.getListTree(parentId, pageSize, pageNum);
-        return CommonResult.success(CommonPage.restPage(productCategoryList));
-    }
+//    @ApiOperation("分页查询商品分类")
+//    @RequestMapping(value = "/list/tree/{parentId}", method = RequestMethod.GET)
+//    @ResponseBody
+//    @PreAuthorize("hasAuthority('pms:productCategory:read')")
+//    public CommonResult<CommonPage<PmsProductCategory>> getListTree(@PathVariable Long parentId,
+//                                                                @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
+//                                                                @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+//        List<PmsProductCategory> productCategoryList = productCategoryService.getList(parentId, pageSize, pageNum);
+//        return CommonResult.success(CommonPage.restPage(productCategoryList));
+//    }
 
     @ApiOperation("根据id获取商品分类")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -146,5 +146,15 @@ public class PmsProductCategoryController {
         List<PmsProductCategoryWithChildrenTree> list = productCategoryService.listWithTree();
         return CommonResult.success(list);
     }
+
+    @ApiOperation("查询所有分类及子分类(数组)")
+    @RequestMapping(value = "/list/withArray", method = RequestMethod.GET)
+    @ResponseBody
+    //@PreAuthorize("hasAuthority('pms:productCategory:read')")
+    public CommonResult<List<PmsProductCategoryWithChildrenTree>> withArray() {
+        List<PmsProductCategoryWithChildrenTree> list = productCategoryService.listWithArray();
+        return CommonResult.success(list);
+    }
+
 
 }

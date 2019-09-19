@@ -35,5 +35,4 @@ public interface PmsProductCategoryService {
 
     List<PmsProductCategoryWithChildrenTree> listWithArray();
 
-    List<PmsProductCategory> getListTree(Long parentId, Integer pageSize, Integer pageNum);
 }

@@ -17,14 +17,16 @@
     </select>
 
 
-    <select id="listWithArray" parameterType="com.macro.mall.dto.PmsProductCategoryWithChildrenTree" resultType="com.macro.mall.dto.PmsProductCategoryWithChildrenTree">
+    <select id="listWithArray"  resultType="com.macro.mall.dto.PmsProductCategoryWithChildrenTree">
         SELECT
         C1.id,
-        C1. name,
+        C1.name,
+        C1.tag_ids,
         C1.parent_id as parentId,
-        C1. level
+        C1.level
         FROM pms_product_category C1 LEFT JOIN pms_product_category C2 ON C1.parent_id = C2.id
-        ORDER BY	C1. level ASC,	C1.id ASC
+        AND C1.show_status = 1
+        ORDER BY C1. level ASC,	C1.id ASC
     </select>
 
 
