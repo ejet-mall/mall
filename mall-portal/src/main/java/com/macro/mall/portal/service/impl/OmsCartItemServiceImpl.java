@@ -127,12 +127,19 @@ public class OmsCartItemServiceImpl implements OmsCartItemService {
     }
 
     @Override
-    public int delete(Long memberId, List<Long> ids) {
+    public int updateBatch(Long memberId, List<Long> ids) {
         OmsCartItem record = new OmsCartItem();
         record.setDeleteStatus(1);
         OmsCartItemExample example = new OmsCartItemExample();
         example.createCriteria().andIdIn(ids).andMemberIdEqualTo(memberId);
         return cartItemMapper.updateByExampleSelective(record, example);
+    }
+
+    @Override
+    public int deleteBatch(Long memberId, List<Long> ids) {
+        OmsCartItemExample example = new OmsCartItemExample();
+        example.createCriteria().andIdIn(ids).andMemberIdEqualTo(memberId);
+        return cartItemMapper.deleteByExample(example);
     }
 
     @Override

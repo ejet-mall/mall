@@ -41,9 +41,14 @@ public interface OmsCartItemService {
     int updateQuantity(Long id, Long memberId, Integer quantity);
 
     /**
-     * 批量删除购物车中的商品
+     * 批量修改购物车中的商品
      */
-    int delete(Long memberId,List<Long> ids);
+    int updateBatch(Long memberId,List<Long> ids);
+
+    /**
+     * 批量修改购物车中的商品
+     */
+    int deleteBatch(Long memberId,List<Long> ids);
 
     /**
      *获取购物车中用于选择商品规格的商品信息

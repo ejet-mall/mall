@@ -8,7 +8,7 @@ public class PortalConstant {
 
     public static final String ACCESS_TOKEN_KEY = "Authorization";
 
-    public static final int TOKEN_KEY_TIMEOUT = 60*60*24;
+    public static final int TOKEN_KEY_TIMEOUT = 60*60*24*3650;
 
 
     /**

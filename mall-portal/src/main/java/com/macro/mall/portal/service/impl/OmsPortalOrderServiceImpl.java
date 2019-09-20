@@ -1,14 +1,11 @@
 package com.macro.mall.portal.service.impl;
 
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.macro.mall.common.api.CommonPage;
 import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.dto.OmsOrderQueryParam;
 import com.macro.mall.mapper.*;
 import com.macro.mall.model.*;
-import com.macro.mall.portal.auth.TokenHelper;
 import com.macro.mall.portal.component.CancelOrderSender;
 import com.macro.mall.portal.dao.PortalOrderDao;
 import com.macro.mall.portal.dao.PortalOrderItemDao;
@@ -16,10 +13,11 @@ import com.macro.mall.portal.dao.SmsCouponHistoryDao;
 import com.macro.mall.portal.domain.*;
 import com.macro.mall.portal.service.*;
 import com.macro.mall.portal.util.SmsUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.io.IOException;
@@ -34,6 +32,7 @@ import java.util.*;
  */
 @Service
 public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
+    private Logger logger = LoggerFactory.getLogger(OmsPortalOrderServiceImpl.class);
     @Autowired
     private UmsMemberService memberService;
     @Autowired
@@ -391,8 +390,8 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
 
         //发送短信通知
         SysParam sysParam = sysParamService.getOnOrdered();
-
-        SmsUtil.sendOrder(sysParam, order.getPayAmount()+"", order.getOrderSn(), order.getReceiverPhone()+order.getReceiverName());
+        logger.warn("开始发送短信:" + sysParam.toString());
+        SmsUtil.sendOrder(sysParam, order.getPayAmount()+"", order.getOrderSn(), "[" + order.getReceiverName() + "]");
 
         return CommonResult.success(result, "下单成功");
     }
@@ -523,7 +522,7 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
         for (CartPromotionItem cartPromotionItem : cartPromotionItemList) {
             ids.add(cartPromotionItem.getId());
         }
-        cartItemService.delete(currentMember.getId(), ids);
+        cartItemService.deleteBatch(currentMember.getId(), ids);
     }
 
     /**

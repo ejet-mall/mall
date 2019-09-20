@@ -89,7 +89,7 @@ public class OmsCartItemController {
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult delete(@RequestParam("ids") List<Long> ids) {
-        int count = cartItemService.delete(memberService.getCurrentMember().getId(), ids);
+        int count = cartItemService.deleteBatch(memberService.getCurrentMember().getId(), ids);
         if (count > 0) {
             return CommonResult.success(count);
         }

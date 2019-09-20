@@ -56,6 +56,7 @@ public class SmsUtil {
             req.setTemplateCode("SMS_174028711"); //短信通知模板
             req.setTemplateParam(param);
             SmsResponse response = SmsFactory.sendSms(req);
+            logger.warn("发送短信结果:" + response.toString());
             return response!=null && "OK".equalsIgnoreCase(response.getCode());
         } catch (Exception e) {
             logger.error("", e);
