@@ -86,7 +86,7 @@ public class BuCoreCommentServiceImpl implements BuCoreCommentService {
         PageHelper.startPage(pageNum, pageSize);
         BuCoreCommentExample example = new BuCoreCommentExample();
         BuCoreCommentExample.Criteria criteria = example.createCriteria();
-        criteria.andShowStatusEqualTo(0);
+        criteria.andShowStatusEqualTo(1);
         if (queryParam.getUserId()!=null) {
             criteria.andUserIdEqualTo(queryParam.getUserId());
         }
