@@ -11,4 +11,6 @@ public class CmsSubjectProductResult extends PmsProduct {
 
     private Long subjectId;
 
+    private Long productId;
+
 }

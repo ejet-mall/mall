@@ -3,12 +3,13 @@
 <mapper namespace="com.macro.mall.dao.CmsSubjectDao">
 
     <resultMap id="cmsSubjectMap" type="com.macro.mall.dto.CmsSubjectProductResult" extends="com.macro.mall.mapper.PmsProductMapper.ResultMapWithBLOBs">
-
+        <result column="product_id" jdbcType="INTEGER" property="productId" />
+        <result column="subject_id" jdbcType="INTEGER" property="subjectId" />
     </resultMap>
 
 
     <select id="getProductList" resultMap="cmsSubjectMap">
-        SELECT R.*, p.*
+        SELECT p.*, R.subject_id, R.product_id
         FROM pms_product p
 		INNER JOIN cms_subject_product_relation R ON p.id = R.product_id
 		AND p.delete_status=0 AND publish_status=1

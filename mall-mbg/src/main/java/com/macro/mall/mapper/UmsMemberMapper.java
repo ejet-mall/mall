@@ -6,7 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 /**
-* Created by Mybatis Generator 2019/09/16
+* Created by Mybatis Generator 2019/09/20
 */
 public interface UmsMemberMapper {
     long countByExample(UmsMemberExample example);
