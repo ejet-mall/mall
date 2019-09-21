@@ -1,8 +1,11 @@
 package com.macro.mall.service.impl;
 
 import com.github.pagehelper.PageHelper;
+import com.macro.mall.common.constant.CommConstant;
 import com.macro.mall.mapper.CmsSubjectMapper;
 import com.macro.mall.model.CmsSubject;
+import com.macro.mall.model.CmsSubjectCategory;
+import com.macro.mall.model.CmsSubjectCategoryExample;
 import com.macro.mall.model.CmsSubjectExample;
 import com.macro.mall.service.CmsSubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,39 @@ import java.util.List;
 public class CmsSubjectServiceImpl implements CmsSubjectService {
     @Autowired
     private CmsSubjectMapper subjectMapper;
+
+    @Override
+    public int create(CmsSubject subjectParam) {
+        subjectParam.setShowStatus(subjectParam.getShowStatus()==null ? CommConstant.SHOW_STATUS_ON :subjectParam.getShowStatus());
+        int count = subjectMapper.insertSelective(subjectParam);
+        return count;
+    }
+
+    @Override
+    public int update(Long id, CmsSubject subjectParam) {
+        subjectParam.setId(id);
+        return subjectMapper.updateByPrimaryKeySelective(subjectParam);
+    }
+
+    @Override
+    public int updateShowStatus(List<Long> ids, Integer showStatus) {
+        CmsSubject subject = new CmsSubject();
+        subject.setShowStatus(showStatus);
+        CmsSubjectExample example = new CmsSubjectExample();
+        example.createCriteria().andIdIn(ids);
+        return subjectMapper.updateByExampleSelective(subject, example);
+    }
+
+    @Override
+    public int delete(Long id) {
+        return subjectMapper.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public CmsSubject getItem(Long id) {
+        return subjectMapper.selectByPrimaryKey(id);
+    }
+
 
     @Override
     public List<CmsSubject> listAll() {

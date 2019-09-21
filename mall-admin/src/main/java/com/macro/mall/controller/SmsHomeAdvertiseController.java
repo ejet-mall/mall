@@ -18,7 +18,7 @@ import java.util.List;
  */
 @Controller
 @Api(tags = "SmsHomeAdvertiseController", description = "首页轮播广告管理")
-@RequestMapping("/home/advertise")
+@RequestMapping("/home/defAdvt")
 public class SmsHomeAdvertiseController {
     @Autowired
     private SmsHomeAdvertiseService advertiseService;

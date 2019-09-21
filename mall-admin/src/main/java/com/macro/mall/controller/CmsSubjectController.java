@@ -7,17 +7,15 @@ import com.macro.mall.service.CmsSubjectService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 /**
  * 商品专题Controller
- * Created by macro on 2018/6/1.
  */
 @Controller
 @Api(tags = "CmsSubjectController", description = "商品专题管理")
@@ -43,4 +41,18 @@ public class CmsSubjectController {
         List<CmsSubject> subjectList = subjectService.list(keyword, pageNum, pageSize);
         return CommonResult.success(CommonPage.restPage(subjectList));
     }
+
+    @ApiOperation("添加专题")
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    @ResponseBody
+    @PreAuthorize("hasAuthority('cms:subject:create')")
+    public CommonResult create(@Validated @RequestBody CmsSubject categoryParam) {
+        int count = subjectService.create(categoryParam);
+        if (count > 0) {
+            return CommonResult.success(count);
+        } else {
+            return CommonResult.failed();
+        }
+    }
+
 }
