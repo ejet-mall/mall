@@ -26,6 +26,7 @@ public class CmsSubjectServiceImpl implements CmsSubjectService {
     @Override
     public int create(CmsSubject subjectParam) {
         subjectParam.setShowStatus(subjectParam.getShowStatus()==null ? CommConstant.SHOW_STATUS_ON :subjectParam.getShowStatus());
+        subjectParam.setRecommendStatus(subjectParam.getRecommendStatus()==null ? CommConstant.RECOMMAND_STATUS_ON :subjectParam.getRecommendStatus());
         int count = subjectMapper.insertSelective(subjectParam);
         return count;
     }
@@ -40,6 +41,15 @@ public class CmsSubjectServiceImpl implements CmsSubjectService {
     public int updateShowStatus(List<Long> ids, Integer showStatus) {
         CmsSubject subject = new CmsSubject();
         subject.setShowStatus(showStatus);
+        CmsSubjectExample example = new CmsSubjectExample();
+        example.createCriteria().andIdIn(ids);
+        return subjectMapper.updateByExampleSelective(subject, example);
+    }
+
+    @Override
+    public int updateRecommendStatus(List<Long> ids, Integer recommentStatus) {
+        CmsSubject subject = new CmsSubject();
+        subject.setRecommendStatus(recommentStatus);
         CmsSubjectExample example = new CmsSubjectExample();
         example.createCriteria().andIdIn(ids);
         return subjectMapper.updateByExampleSelective(subject, example);

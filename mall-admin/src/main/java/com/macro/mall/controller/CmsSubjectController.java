@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -54,5 +55,74 @@ public class CmsSubjectController {
             return CommonResult.failed();
         }
     }
+
+
+    @ApiOperation("修改专题")
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    @PreAuthorize("hasAuthority('cms:subject:update')")
+    public CommonResult update(@PathVariable Long id,
+                               @Validated
+                               @RequestBody CmsSubject categoryParam,
+                               BindingResult result) {
+        int count = subjectService.update(id, categoryParam);
+        if (count > 0) {
+            return CommonResult.success(count);
+        } else {
+            return CommonResult.failed();
+        }
+    }
+
+    @ApiOperation("修改显示状态")
+    @RequestMapping(value = "/update/showStatus", method = RequestMethod.POST)
+    @ResponseBody
+    @PreAuthorize("hasAuthority('cms:subject:update')")
+    public CommonResult updateShowStatus(@RequestParam("ids") List<Long> ids, @RequestParam("showStatus") Integer showStatus) {
+        int count = subjectService.updateShowStatus(ids, showStatus);
+        if (count > 0) {
+            return CommonResult.success(count);
+        } else {
+            return CommonResult.failed();
+        }
+    }
+
+
+    @ApiOperation("修改推荐状态")
+    @RequestMapping(value = "/update/recommendStatus", method = RequestMethod.POST)
+    @ResponseBody
+    @PreAuthorize("hasAuthority('cms:subject:update')")
+    public CommonResult updateRecommentStatus(@RequestParam("ids") List<Long> ids, @RequestParam("recommendStatus") Integer recommendStatus) {
+        int count = subjectService.updateRecommendStatus(ids, recommendStatus);
+        if (count > 0) {
+            return CommonResult.success(count);
+        } else {
+            return CommonResult.failed();
+        }
+    }
+
+
+    @ApiOperation("根据id获取专题分类")
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    @PreAuthorize("hasAuthority('cms:subject:read')")
+    public CommonResult<CmsSubject> getItem(@PathVariable Long id) {
+        CmsSubject subject = subjectService.getItem(id);
+        return CommonResult.success(subject);
+    }
+
+    @ApiOperation("删除专题分类")
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    @PreAuthorize("hasAuthority('cms:subject:delete')")
+    public CommonResult delete(@PathVariable Long id) {
+        int count = subjectService.delete(id);
+        if (count > 0) {
+            return CommonResult.success(count);
+        } else {
+            return CommonResult.failed();
+        }
+    }
+
+
 
 }

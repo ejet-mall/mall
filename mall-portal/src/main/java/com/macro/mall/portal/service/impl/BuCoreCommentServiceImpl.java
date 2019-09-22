@@ -40,9 +40,9 @@ public class BuCoreCommentServiceImpl implements BuCoreCommentService {
         int count  = 0;
         UmsMember member = memberService.getCurrentMember();
         productParam.setUserId(member.getId());
-        productParam.setUserNickName(member.getNickname());
+        productParam.setUserNickName(StringUtils.isEmpty(productParam.getUserNickName()) ? member.getNickname() : productParam.getUserNickName());
         productParam.setPhone(member.getPhone());
-        productParam.setUserIcon(member.getIcon());
+        productParam.setUserIcon(StringUtils.isEmpty(productParam.getUserIcon()) ? member.getIcon() : productParam.getUserIcon());
 
         productParam.setCreateTime(new Date());
         productParam.setUpdateTime(productParam.getCreateTime());

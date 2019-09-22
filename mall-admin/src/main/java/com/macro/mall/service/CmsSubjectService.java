@@ -20,6 +20,8 @@ public interface CmsSubjectService {
 
     int updateShowStatus(List<Long> ids, Integer showStatus);
 
+    int updateRecommendStatus(List<Long> ids, Integer recommendStatus);
+
     int delete(Long id);
 
     CmsSubject getItem(Long id);

@@ -139,6 +139,7 @@ public class OmsOrderServiceImpl implements OmsOrderService {
         OmsOrder order = new OmsOrder();
         order.setId(id);
         order.setNote(note);
+        order.setStatus(status);
         order.setModifyTime(new Date());
         int count = orderMapper.updateByPrimaryKeySelective(order);
         OmsOrderOperateHistory history = new OmsOrderOperateHistory();
