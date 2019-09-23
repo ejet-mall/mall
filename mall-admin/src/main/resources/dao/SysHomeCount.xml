@@ -55,11 +55,11 @@
         ) orderCountToday, -- 当日订单数
 
         (
-        select SUM(pay_amount) orderSaleFeeToday from oms_order O WHERE TO_DAYS(O.create_time)=TO_DAYS(NOW())
+        select COALESCE(sum(pay_amount),0) orderSaleFeeToday from oms_order O WHERE TO_DAYS(O.create_time)=TO_DAYS(NOW())
         ) orderSaleFeeToday, -- 当日销售金额
 
         (
-        select SUM(pay_amount) orderSaleFeeYesterday from oms_order O WHERE TO_DAYS(NOW())-TO_DAYS(O.create_time)=1
+        select COALESCE(sum(pay_amount),0) orderSaleFeeYesterday from oms_order O WHERE TO_DAYS(NOW())-TO_DAYS(O.create_time)=1
         ) orderSaleFeeYesterday, -- 昨日销售金额
 
 

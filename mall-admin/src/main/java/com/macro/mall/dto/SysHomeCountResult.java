@@ -30,9 +30,9 @@ public class SysHomeCountResult implements Serializable {
     /** 订单->当日订单数 */
     private Integer orderCountToday;
     /** 订单->当日销售金额 */
-    private Integer orderSaleFeeToday;
+    private Float orderSaleFeeToday;
     /** 订单->昨日销售 */
-    private Integer orderSaleFeeYesterday;
+    private Float orderSaleFeeYesterday;
 
 
     /** 当日新增用户 */
