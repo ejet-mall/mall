@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.macro.mall.dao.SysHomeCountDao">
+
+    <resultMap id="couponItemParam" type="com.macro.mall.dto.SmsCouponParam" extends="com.macro.mall.mapper.SmsCouponMapper.BaseResultMap">
+        <collection property="productRelationList" columnPrefix="cpr_" resultMap="com.macro.mall.mapper.SmsCouponProductRelationMapper.BaseResultMap">
+        </collection>
+        <collection property="productCategoryRelationList" columnPrefix="cpcr_" resultMap="com.macro.mall.mapper.SmsCouponProductCategoryRelationMapper.BaseResultMap">
+        </collection>
+    </resultMap>
+
+
+    <select id="homeProductOrderCount" resultType="com.macro.mall.dto.SysHomeCountResult">
+
+        select * FROM
+        (
+        select count(*) as productPublishOff from pms_product where publish_status=0 -- 下架
+        ) productPublishOff,
+
+        (
+        select count(*) as productPublishOn from pms_product where publish_status=1 -- 上架
+        ) productPublishOn,
+
+        (
+        select count(*) as productTotal from pms_product -- 全部商品
+        ) productTotal,
+
+        (
+        select count(P.id) as productSkuLess from pms_product P INNER JOIN pms_sku_stock S
+        ON S.product_id=P.id  <![CDATA[ AND (S.stock-S.lock_stock)<S.low_stock ]]>
+        ) productSkuLess, -- 库存紧张
+
+        -- 0->待付款；1->待发货；2->已发货；3->已完成；4->已关闭；5->无效订单',
+        (
+        select count(O.id) as orderWaitPay from oms_order O WHERE O.status =0 <![CDATA[ AND DATE_SUB(CURDATE(), INTERVAL 30 DAY)<date(O.create_time) ]]>
+        ) orderWaitPay, -- 订单待付款
+
+        (
+        select count(O.id) as orderWaitDeliver from oms_order O WHERE O.status =1 <![CDATA[ AND DATE_SUB(CURDATE(), INTERVAL 30 DAY)<date(O.create_time) ]]>
+        ) orderWaitDeliver, -- 订单1->待发货
+
+        (
+        select count(O.id) as orderDelived from oms_order O WHERE O.status =2 <![CDATA[ AND DATE_SUB(CURDATE(), INTERVAL 30 DAY)<date(O.create_time) ]]>
+        ) orderDelived, -- 订单2->已发货
+
+        (
+        select count(O.id) as orderOver from oms_order O WHERE O.status =3 <![CDATA[ AND DATE_SUB(CURDATE(), INTERVAL 30 DAY)<date(O.create_time) ]]>
+        ) orderOver, -- 订单3->已完成
+        (
+        select count(O.id) as orderCanceled from oms_order O WHERE (O.status=4 OR O.status=5) <![CDATA[ AND DATE_SUB(CURDATE(), INTERVAL 30 DAY)<date(O.create_time) ]]>
+        ) orderCanceled, -- 订单45->已关闭取消
+
+        (
+        select count(O.id) as orderCountToday from oms_order O WHERE TO_DAYS(O.create_time)=TO_DAYS(NOW())
+        ) orderCountToday, -- 当日订单数
+
+        (
+        select SUM(pay_amount) orderSaleFeeToday from oms_order O WHERE TO_DAYS(O.create_time)=TO_DAYS(NOW())
+        ) orderSaleFeeToday, -- 当日销售金额
+
+        (
+        select SUM(pay_amount) orderSaleFeeYesterday from oms_order O WHERE TO_DAYS(NOW())-TO_DAYS(O.create_time)=1
+        ) orderSaleFeeYesterday, -- 昨日销售金额
+
+
+        (
+        select count(*) memberAddToday from ums_member O WHERE TO_DAYS(NOW())=TO_DAYS(O.create_time) AND O.status=1
+        ) memberAddToday, -- 当日新增用户
+
+        (
+        select count(*) memberAddYesterday from ums_member O WHERE TO_DAYS(NOW())-TO_DAYS(O.create_time)=1 AND O.status=1
+        ) memberAddYesterday, -- 昨日新增
+
+        (
+        select count(*) memberAddMonth from ums_member O WHERE DATE_FORMAT(O.create_time, '%Y%m')=DATE_FORMAT(CURDATE(), '%Y%m') AND O.status=1
+        ) memberAddMonth, -- 本月新增
+
+        (
+        select count(*) memberTotal from ums_member O WHERE O.status=1
+        ) memberTotal -- 总用户
+
+
+
+    </select>
+</mapper>
