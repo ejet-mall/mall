@@ -31,8 +31,7 @@ public interface PmsProductCategoryService {
 
     List<PmsProductCategoryWithChildrenItem> listWithChildren();
 
-    List<PmsProductCategoryWithChildrenTree> listWithTree();
+    List<PmsProductCategoryWithChildrenTree> listWithTree(Integer level);
 
     List<PmsProductCategoryWithChildrenTree> listWithArray();
-
 }

@@ -142,10 +142,11 @@ public class PmsProductCategoryController {
     @RequestMapping(value = "/list/withTree", method = RequestMethod.GET)
     @ResponseBody
     @PreAuthorize("hasAuthority('pms:productCategory:read')")
-    public CommonResult<List<PmsProductCategoryWithChildrenTree>> listWithTree() {
-        List<PmsProductCategoryWithChildrenTree> list = productCategoryService.listWithTree();
+    public CommonResult<List<PmsProductCategoryWithChildrenTree>> listWithTree(@RequestParam(value = "level", required = false) Integer level) {
+        List<PmsProductCategoryWithChildrenTree> list = productCategoryService.listWithTree(level);
         return CommonResult.success(list);
     }
+
 
     @ApiOperation("查询所有分类及子分类(数组)")
     @RequestMapping(value = "/list/withArray", method = RequestMethod.GET)

@@ -1,9 +1,8 @@
 package com.macro.mall.service.impl;
 
-import cn.hutool.core.util.ReflectUtil;
 import com.github.pagehelper.PageHelper;
 import com.macro.mall.dao.PmsProductCategoryAttributeRelationDao;
-import com.macro.mall.dao.PmsProductCategoryDao;
+import com.macro.mall.dao.PmsProductCategoryDAO;
 import com.macro.mall.dto.PmsProductCategoryParam;
 import com.macro.mall.dto.PmsProductCategoryWithChildrenItem;
 import com.macro.mall.dto.PmsProductCategoryWithChildrenTree;
@@ -35,7 +34,7 @@ public class PmsProductCategoryServiceImpl implements PmsProductCategoryService 
     @Autowired
     private PmsProductCategoryAttributeRelationMapper productCategoryAttributeRelationMapper;
     @Autowired
-    private PmsProductCategoryDao productCategoryDao;
+    private PmsProductCategoryDAO productCategoryDao;
     @Override
     public int create(PmsProductCategoryParam pmsProductCategoryParam) {
         PmsProductCategory productCategory = new PmsProductCategory();
@@ -155,23 +154,28 @@ public class PmsProductCategoryServiceImpl implements PmsProductCategoryService 
     }
 
     @Override
-    public List<PmsProductCategoryWithChildrenTree> listWithTree() {
-        List<PmsProductCategoryWithChildrenTree> resultList = productCategoryDao.listWithArray();
+    public List<PmsProductCategoryWithChildrenTree> listWithTree(Integer level) {
+        level = (level==null || level==0) ? 100 : level;
+        List<PmsProductCategoryWithChildrenTree> resultList = listWithArray();
         PmsProductCategoryWithChildrenTree root = new PmsProductCategoryWithChildrenTree();
         root.setId(0L);
-        PmsProductCategoryWithChildrenTree tree = toTree(resultList, root);
+        PmsProductCategoryWithChildrenTree tree = toTree(resultList, root, level);
         return tree.getChildren();
     }
 
+
     @Override
     public List<PmsProductCategoryWithChildrenTree> listWithArray() {
-        return productCategoryDao.listWithArray();
+//        PmsProductCategoryWithChildrenTree obj = new PmsProductCategoryWithChildrenTree();
+//        obj.setLevel(level);
+        return productCategoryDao.listWithArrayByLevel();
     }
 
 
-    public static PmsProductCategoryWithChildrenTree toTree(List<PmsProductCategoryWithChildrenTree> all, PmsProductCategoryWithChildrenTree rootNode) {
+    public static PmsProductCategoryWithChildrenTree toTree(List<PmsProductCategoryWithChildrenTree> all, PmsProductCategoryWithChildrenTree rootNode, Integer level) {
         boolean allAppend = false;
         for(PmsProductCategoryWithChildrenTree item : all) {
+            if(item.getLevel()>level) continue;
             boolean temp = appendChild(rootNode, item);
             allAppend = temp && allAppend;
         }
@@ -183,7 +187,7 @@ public class PmsProductCategoryServiceImpl implements PmsProductCategoryService 
         Object value = treeNode.getId();
         Object pidValue = currentNode.getParentId();
         if( Integer.valueOf(String.valueOf(value)).intValue() ==
-                Integer.valueOf(String.valueOf(pidValue)).intValue() ) { //
+                Integer.valueOf(String.valueOf(pidValue)).intValue()) { //
             treeNode.getChildren().add(currentNode);
             return true;
         } else if( treeNode.getChildren()!=null ) {
